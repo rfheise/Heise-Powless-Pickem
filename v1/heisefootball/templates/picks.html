@@ -1,0 +1,114 @@
+{% extends "layout.html" %}
+
+{% block title %}{{title}}{% endblock %}
+{%block head%}
+<style>
+  body{
+    background-color:purple;
+  }
+  .tabled{
+    background-color:yellow;
+    color:purple;
+    text-shadow: 1px 1px black;
+    font-size:20px;
+    font-family: 'PT Sans', sans-serif;
+    padding-left:20px;
+    font-weight: bolder;
+  }
+  .labels
+  {
+    color:purple;
+    text-shadow: 1px 1px black;
+    font-size:30px;
+    font-family: 'PT Sans', sans-serif;
+    padding-left:20px;
+    font-weight: bolder;
+  }
+  .bordered
+  {
+    border: 2.5px solid purple;
+     border-radius: 30px;
+     border-collapse:seperate;
+     perspective: 1px;
+     overflow:hidden;
+  }
+  .search
+{
+  color:#1E656D;
+  text-align:center;
+  padding-top: 200px;
+}
+.span
+{
+  color:#1E656D;
+  border: 2px solid #1E656D;
+  border-radius: 8px;
+  font-weight:bolder;
+}
+select:focus
+{
+  outline: #1E656D;
+}
+.selected{
+  background-color:#F1F3CE;
+  color:#1E656D;
+  font-size:20px;
+  text-shadow: 1px 1px black;
+  text-weight:bold;
+  border: 2px solid #1E656D;
+}
+.batman
+{
+  background-color:#1E656D;
+  color:#F1F3CE;
+  font-size:20px;
+  text-shadow: 1px 1px black;
+  text-weight:bold;
+}
+.beats{
+  visibility:hidden;
+}
+.searchby
+{
+  color:#1E656D;
+  text-shadow: 1px 1px black;
+  font-size:20px;
+  font-family: 'PT Sans', sans-serif;
+}
+a{
+  color:purple;
+}
+</style>
+{%endblock%}
+{% block body %}
+{%if picks%}
+<div class ="row justify-content-md-center">
+<div class ="col col-md-10 ">
+  <p>Picks For Week:{{week.weeknum}}</p>
+<table class="table tabled bordered">
+  <thead class ="labels">
+    <tr class = "bordered rounded">
+      <th scope="col" >Name</th>
+      <th scope = "col">Pick</th>
+      <th scope = "col">Win/Loss</th>
+      <th scope = "col">Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for pick in picks %}
+    <tr class = "bordered rounded">
+      <td><a class = "a" href = "/picker/picks/{{pick.pick.picker.id}}">{{pick.pick.picker}}</a></td>
+      <td><a class = "a" href = "/matches/pick/{{pick.matchup.id}}">{{pick.pick.pick}}</a></td>
+      <td>{{pick.pick.win}}</td>
+      <td>{{pick.pick.date}}</td>
+    </tr>
+    {%endfor%}
+  </tbody>
+</table>
+{% else %}
+<p style = "color:purple;">Sorry No Picks Found</p>
+{% endif  %}
+</div>
+</div>
+
+{% endblock %}

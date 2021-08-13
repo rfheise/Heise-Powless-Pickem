@@ -1,0 +1,6 @@
+login
+signup
+pickem
+standings
+my picks
+rules

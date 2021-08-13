@@ -1,0 +1,36 @@
+{%extends "layout.html"%}
+{%block title%}{{title}}{%endblock%}
+{%block body%}
+  <div class="div-block-13">
+    <div class="div-block-35">
+      <div class="div-block-21">
+        <h1 class="heading-3">{%if picks%}{{title}}{%else%}No Picks On Account {%endif%}</h1>
+      </div>
+      {%if picks%}
+        {%for pick in picks%}
+      <div class="div-block-15">
+
+        <div class="div-block-20 hand">
+          <div class="div-block-16" style = "background-image:url('{{pick.team.image}}')"></div>
+          <div class="div-block-18">
+            <div class="div-block-19">
+              <div>
+                <h1 class="heading-2 place heading-4 hoover" style = "color:{{pick.color}}">{{pick.week}}</h1>
+              </div>
+              <div class="div-block-26">
+                <div class="text-block-2">My Team:{{pick.team.name}}</div>
+                <div class="text-block-2">Opposing:{{pick.oppose.name}}</div>
+              </div>
+              <div class="div-block-26">
+                <div class="text-block-2 led">My Team-Opposing:{{pick.score}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+        {%endfor%}
+      {%endif%}
+    </div>
+  </div>
+{%endblock%}

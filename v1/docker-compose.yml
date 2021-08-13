@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  migration:
+    build: .
+    command: manage.py makemigrations
+    command: manage.py migrate
+    command: export LANGUAGE_CODE='en-us'
+    command: manage.py loaddata "team.json"
+    volumes:
+      [./usr/src/pickem]
+  web:
+    build: .
+    command:  manage.py runserver 0.0.0.0:8000
+    ports:
+      ["8000:8000"]
+    volumes:
+      [./usr/src/pickem]
+    depends_on:
+      [migration]

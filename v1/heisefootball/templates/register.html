@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block title %}{%if dodgers %}Register{% else %}Login{% endif %}{% endblock %}
+
+{% block body %}
+<div class = "col-md-6">
+  <form action = {% if dodgers %}"/register"{% else %}"/login"{% endif %} method = "POST">
+    {% csrf_token %}
+    {% if dodgers %}
+  <div class="form-group">
+    <label >Email Address:</label>
+    <input type="email" name = "email" class="form-control" placeholder="Enter email">
+  </div>
+  {% endif %}
+  <div class="form-group">
+    <label >Username:</label>
+    <input type="text" class="form-control" name = "uname"  placeholder="Username">
+  </div>
+  <div class="form-group">
+    <label >Password:</label>
+    <input type="password" name = "pword" class="form-control" placeholder="Password">
+  </div>
+  {% if dodgers %}
+  <div class="form-group">
+    <label >Confirm Password:</label>
+    <input type="password" name = "cpword" class="form-control" placeholder="Confirm Password">
+  </div>
+  <div class="form-group">
+    <label >First Name:</label>
+    <input type="text" class="form-control" name = "fname" placeholder="First Name">
+  </div>
+  <div class="form-group">
+    <label >Last Name:</label>
+    <input type="text" class="form-control" name = "lname" placeholder="last name">
+  </div>
+  {% endif %}
+  <button class = "btn btn-primarty" type = submit>{% if not dodgers %}Login{% else %}Register{% endif %}</button>
+
+{% endblock %}

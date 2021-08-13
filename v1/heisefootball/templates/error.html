@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block title %}{{message}}{% endblock %}
+{%block head%}
+<style>
+  body{
+    background-color:purple;
+  }
+  </style>
+{% endblock %}
+
+
+{% block body %}
+<div style = "row justify-content-md-center">
+<div class = "col" style = "margin-top:9%;text-align:center;">
+<span class = "logo" style = "color:yellow;margin-top:30%;font-size:50px;">{{message}}</span>
+</div>
+</div>
+{% endblock %}

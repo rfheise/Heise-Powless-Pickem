@@ -1,0 +1,33 @@
+{%extends "layout.html"%}
+{%block body%}
+
+  <div class="div-block-13">
+    <div class="div-block-14">
+      <div class="div-block-21">
+        <h1 class="heading-3">League</h1>
+        <div class="div-block-41 text-block-2">Winning Division: {{winning}}</div><a href="/division/all" class="button w-button">View All</a>
+        <div class="div-block-23">
+          {%for student in students%}
+          <div class="div-block-25">
+            <h1 class="heading-2 gold">{{forloop.counter}} Place</h1>
+            <div class="div-block-16" style = "background-image:url({{student.image}});"></div>
+            <h1 class="heading-2 bruh">{{student}}</h1>
+          </div>
+          {%endfor%}
+        </div>
+      </div>
+      <div class="div-block-21">
+        <h1 class="heading-3">{{user.name}}</h1><a href="/division/{{user.abbr}}" class="button w-button">View All</a>
+        <div class="div-block-23">
+          {%for dorm in dorms%}
+          <div class="div-block-25">
+            <h1 class="heading-2 gold">{{forloop.counter}} Place</h1>
+            <div class="div-block-16" style = "background-image:url({{dorm.image}});"></div>
+            <h1 class="heading-2 bruh">{{dorm}}</h1>
+          </div>
+          {%endfor%}
+        </div>
+      </div>
+    </div>
+  </div>
+  {%endblock%}

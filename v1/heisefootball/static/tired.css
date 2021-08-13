@@ -1,0 +1,111 @@
+.classicBackground
+{
+  background-color:purple;
+  color:purple;
+  font-weight:bold;
+  font-family: 'PT Sans', sans-serif;
+
+}
+.navBar
+{
+  background-color:purple;
+  color:yellow;
+
+}
+.logo
+{
+  color:yellow;
+  font-weight:bold;
+  font-family: 'PT Sans', sans-serif;
+  font-size: 30px;
+  text-shadow:1px 1px purple;
+
+}
+p{
+  color:yellow;
+}
+.footer
+{
+  background-color:purple;
+  color:yellow;
+  font-family: 'PT Sans', sans-serif;
+
+}
+a
+{
+  color:yellow;
+  text-shadow: 1px 1px black;
+  font-size:20px;
+  font-family: 'PT Sans', sans-serif;
+  padding-left:20px;
+  font-weight: bolder;
+
+}
+.a{
+  color:purple;
+}
+.a:hover{
+  color:green;
+}
+a:hover
+{
+    color:yellow;
+}
+
+.footer-text
+{
+  color:yellow;
+  text-shadow: 1px 1px black;
+  font-size:30px;
+  font-family: 'PT Sans', sans-serif;
+  padding-left:20px;
+  font-weight: bold;
+}
+.title-application
+{
+  color:yellow;
+  font-size:20px;
+  text-shadow: 1px 1px black;
+  font-family: 'PT Sans', sans-serif;
+  font-weight:bold;
+}
+.title-application-sub
+{
+  color:yellow;
+  font-size:17px;
+  text-shadow: 1px 1px blac;
+  font-family: 'PT Sans', sans-serif;
+  font-weight:bold;
+}
+ul
+{
+  list-style-type: none;
+}
+.input-section
+{
+  color:yellow;
+  border: 2px solid yellow;
+  border-radius: 8px;
+  background-color:purple;
+  font-weight:bolder;
+  font-size:20px;
+}
+.btn-application
+{
+  background-color:purple;
+  color:yellow;
+  font-size:13px;
+}
+.footer
+{
+  background-color:purple;
+  color:yellow;
+  font-size: 13px;
+  height: 100px;
+  positon:fixed;
+  bottom:0;
+}
+.logo:hover
+{
+   text-decoration:none;
+}

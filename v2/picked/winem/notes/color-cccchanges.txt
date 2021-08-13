@@ -1,0 +1,11 @@
+#000 -> #002C5F
+
+#8d7d5e -> #A2AAAD
+
+#cfb991 -> white
+
+#8d7d5e -> #A2AAAD
+
+.astronoaunt ->background-color ->  #A2AAAD
+
+div-block-16 -> border-color -> white

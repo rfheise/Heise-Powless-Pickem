@@ -1,0 +1,10 @@
+purdue gold - #cfb991
+
+
+React Password/Username reset
+  standard text input make a list of all the attributes needed
+  based upon inputs generate form
+  send to server
+    if error display Error
+    //implement server side
+    else return success message from server

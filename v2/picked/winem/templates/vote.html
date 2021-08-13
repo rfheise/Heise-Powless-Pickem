@@ -1,0 +1,46 @@
+{%extends "layout.html"%}
+{%block title%}Vote{%endblock%}
+{%block body%}
+  <div class="div-block-42">
+    <div class="div-block-44">
+      <div class="div-block-43">
+        <div class="w-form">
+          <form method = "POST" action = "/vote" >
+            {%csrf_token%}
+          <div id="email-form" name="email-form" data-name="Email Form">
+            <div class="text-block-4">NFC Ban VOTE</div>
+            {%for nf in nfc%}
+            <label class="w-checkbox checkbox-field">
+              <input type="radio"  name="nfc" data-name="Checkbox" value = "{{nf.uuid}}" class="w-checkbox-input"><span class="w-form-label">{{nf.name}}</span>
+            </label>
+            {%endfor%}
+          </div>
+          <div class="w-form-done">
+            <div>Thank you! Your submission has been received!</div>
+          </div>
+          <div class="w-form-fail">
+            <div>Oops! Something went wrong while submitting the form.</div>
+          </div>
+        </div>
+      </div>
+      <div class="div-block-43">
+        <div class="w-form">
+          <div id="email-form" name="email-form" data-name="Email Form">
+            <div class="text-block-4">AFC Ban VOTE</div>
+            {%for af in afc%}
+            <label class="w-checkbox checkbox-field">
+              <input type="radio"  name="afc" value = "{{af.uuid}}" data-name="Checkbox 2" class="w-checkbox-input">
+              <span class="w-form-label">{{af.name}}</span></label>
+              {%endfor%}
+            </div>
+          <div class="w-form-done">
+            <div>Thank you! Your submission has been received!</div>
+          </div>
+          <div class="w-form-fail">
+            <div>Oops! Something went wrong while submitting the form.</div>
+          </div>
+        </div>
+      </div><input type = "submit" class="button-2 w-button"/></div></form>
+  </div>
+
+{%endblock%}

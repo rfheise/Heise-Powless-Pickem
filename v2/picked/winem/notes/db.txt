@@ -1,0 +1,5 @@
+user - name/dorm/win-loss-tie
+picks - team/user
+teams - list of teams
+games - list of games
+weeks - week/year

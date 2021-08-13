@@ -1,0 +1,36 @@
+{%extends "layout.html" %}
+{%block title%}
+Forgot Username
+{%endblock%}
+{%block head%}
+<script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+<!-- <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script> -->
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<script src = "/static/js/forgot.js" type = "text/babel"></script>
+{%endblock%}
+{%block body%}
+  <div class="div-block-47" id = "billme">
+
+  </div>
+  <div id = "csrf">
+    {%csrf_token%}
+  </div>
+  <script  type = "text/babel">
+  class Mandarin extends React.Component{
+    constructor(){
+      super()
+    }
+    render(){
+      return(
+        <Jif type="{{type}}" csrf = "{{csrf_token}}" />
+      )
+    }
+  }
+
+  ReactDOM.render(React.createElement(Mandarin, null), document.getElementById('billme'));
+
+  </script>
+{%endblock%}
+</html>

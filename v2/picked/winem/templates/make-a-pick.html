@@ -1,0 +1,52 @@
+{%extends "layout.html"%}
+{%block title%}Make A Pick{%endblock%}
+{%block body%}
+  <div class="astronoaunt" style = "height:auto;min-height:1000px;padding-bottom:20px;">
+    <div class="div-block-36">
+      <div class="heading-3 to">Make A Pick</div>
+      <div class="heading-3 low">{{week}}</div>
+      {%if current%}
+      <div class="heading-3 low">Current Pick: {{current.name}}</div>
+      {%endif%}
+      <div class="form-block-2 w-form">
+        <form id="email-form" name="email-form" data-name="Email Form" method = "POST" action = "/pick" style = "display:flex;flex-direction:column;align-items:center;">
+          {%csrf_token%}
+          <select  name="team" class="select-field-2 select-field w-select">
+            {%for team in teams%}
+            <option value="{{team.uuid}}">{{team.name}}</option>
+            {%endfor%}
+          </select>
+          <input type = "submit"  class="button w-inline-block" />
+          </form>
+
+      </div>
+      <div style = "width:200px;text-align:center;">
+          <a class = "button" href="/updateweek">Update Week</a>
+      </div>
+    </div>
+    {%for game in games%}
+    <div class="div-block-37">
+      <div class="div-block-38">
+        <div class="text-block-3">Home</div>
+        <div class="div-block-39" style = "background-image:url({{game.home.image}});"></div>
+        <div>
+          <div class="text-block-3">{{game.home.name}}</div>
+        </div>
+      </div>
+      <div class="text-block-3 colgate"style = "display:flex;flex-direction:column;align-items:center;">
+        <div>VS</div>
+        <div>{{game.time}}</div>
+      </div>
+      <div>
+        <div class="div-block-38">
+          <div class="text-block-3">Away</div>
+          <div class="div-block-39 fine"  style = "background-image:url({{game.away.image}});"></div>
+          <div>
+            <div class="text-block-3">{{game.away.name}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {%endfor%}
+  </div>
+{%endblock%}
