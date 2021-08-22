@@ -1,0 +1,68 @@
+
+.flex-row {
+    display:flex;
+    flex-direction:row;
+    align-items: center;
+    justify-content: space-around;
+}
+.nav-parent {
+    height:90px;
+    width:100%;
+}
+.Navbar {
+    height: 90px;
+    border-bottom: 1px solid #a09f9f;
+    /* box-shadow: 2px .25rem .25rem #e2e2e2; */
+    position: fixed;
+    z-index: 2;
+    background-color: white;
+    width:100%;
+}
+.NavTitle {
+    font-family:'Alumni Sans', sans-serif;
+    font-weight:700;
+    font-size: 3rem;
+    color:#5D5D5D;
+}
+.navLink-mobile {
+    margin-top:90px;
+    background-color: white;
+    width:100%;
+    text-align:center;
+    position:fixed;
+    z-index:2;
+    text-align: center;
+    height:auto;
+    display:none;
+}
+.navlink {
+    color:#707070;
+    font-family: 'Lora',serif;
+    text-decoration: none;
+    font-size:1rem;
+}
+.navlink:hover {
+    color:#242424;
+    text-decoration:underline;
+}
+.hamburger {
+    height:59px;
+}
+@media only screen and (max-width: 1000px) {
+    .navlink {
+        font-size:1.25rem;
+    }
+    .navlink-div:hover .navlink {
+        color:white;
+    }
+    .navlink-div:hover {
+        background-color:#707070;
+    }
+    .navlink-div {
+        padding:1.5rem 0px 1.5rem 0px;
+        width:100%;
+    }
+    .navLink-mobile {
+        display:block;
+    }
+}

@@ -1,0 +1,105 @@
+
+.form-header {
+    color:#707070;
+    font-family: 'Montserrat', serif;
+    font-size: 3rem;
+    padding-bottom:.15rem;
+    border-bottom:2px solid #707070;
+    width:40vw;
+    text-align: center;
+    font-weight: 500;
+}
+.form-error {
+    width:100%;
+    padding-top:1rem;
+    font-family: 'Montserrat', serif;
+    font-size:1rem;
+    text-align:center;
+    color: red;
+}
+.form-page {
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items: center;
+    margin:3rem 0px 3rem 0px;
+}
+@keyframes fadein {
+    0%   { opacity: 0; }
+    100% { opacity: 1; }
+}
+.form {
+    width:50vw;
+    background-color: white;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height:auto;
+    padding:1rem 5vw 2.5rem 5vw;
+    animation: fadein 4s;
+    min-height:55vh;
+}
+.form:hover {
+    opacity:1;
+}
+.form-inputs {
+    margin-top:2rem;
+    width:90%;
+}
+.form-input {
+    width:100%;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding-bottom:1rem;
+}
+.input-title {
+    width:100%;
+    padding-bottom:.5rem;
+    font-family: 'Montserrat', serif;
+    font-size:1rem;
+    color: #707070;
+}
+
+.text-input{
+    width:95%;
+    border:1px solid #b4b4b4;
+    border-radius:5px;
+    height:2rem;
+}
+.form-button {
+    color: white;
+    background-color: #707070;
+    border: 2px solid #707070;
+    font-family: 'Lora';
+    padding: .75rem 2rem .75rem 2rem;
+    border-radius: 10px;
+}
+.image-input {
+    display:none;
+}
+.input-image {
+    height: 20vh;
+    border-radius: 50%;
+    width: 20vh;
+    object-fit: cover;
+}
+.image-input-border {
+    height: 20vh;
+    border-radius: 100%;
+    width: 20vh;
+    margin-bottom:1rem;
+    border:4px solid #707070;
+}
+.form-button:hover {
+    color: #707070;
+    background-color: white;
+    border: 2px solid #707070;
+}
+@media only screen and (max-width: 700px) {
+    .form {
+        width:80vw;
+    }
+}
