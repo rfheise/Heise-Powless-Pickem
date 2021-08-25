@@ -9,11 +9,14 @@ export default function Login () {
         new FormAttribute("uname", "Username", Text),
         new FormAttribute("pword","Password", Password)
     ]
+    function onSuccess(){
+        window.location.href = "/"
+    }
     const api = new API("/api/login","post");
     return (
         <Background title = "Login" image = {lexi}>
             <div className = "form-page">
-                <Form inputs = {formElements} title = "Login" api = {api}/>
+                <Form onSuccess = {onSuccess} inputs = {formElements} title = "Login" api = {api}/>
             </div>
            
         </Background>

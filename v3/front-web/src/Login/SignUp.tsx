@@ -6,19 +6,22 @@ import "../Form/form.css"
 
 export default function SignIn () {
     const formElements = [
-        new FormAttribute("image", "Profile Picture", Image),
+        new FormAttribute("propic", "Profile Picture", Image),
         new FormAttribute("email","Email",Text),
-        new FormAttribute("uname", "Username", Text),
-        new FormAttribute("pword","Password", Password),
-        new FormAttribute("cpword","Confirm Password", Password),
-        new FormAttribute("fname", "First Name", Text),
-        new FormAttribute("lname", "Last Name", Text)
+        new FormAttribute("username", "Username", Text),
+        new FormAttribute("password","Password", Password),
+        new FormAttribute("cpassword","Confirm Password", Password),
+        new FormAttribute("first_name", "First Name", Text),
+        new FormAttribute("last_name", "Last Name", Text)
     ]
+    function onSuccess(){
+        window.location.href = "/"
+    }
     const api = new API("/api/signup","post");
     return (
         <Background title = "Sign Up" image = {lexi}>
             <div className = "form-page">
-                <Form inputs = {formElements} title = "Sign Up" api = {api}/>
+                <Form onSuccess = {onSuccess} inputs = {formElements} title = "Sign Up" api = {api}/>
             </div>
            
         </Background>

@@ -9,6 +9,7 @@ interface Props {
     title:string,
     //api object
     api:API,
+    onSuccess():void
 
 }
 
@@ -40,7 +41,7 @@ function Form(props:Props) {
         if (!request.success) {
             setError(request.payload)
         } else {
-            // props.onSuccess();
+            props.onSuccess();
         }
     }
     return (
