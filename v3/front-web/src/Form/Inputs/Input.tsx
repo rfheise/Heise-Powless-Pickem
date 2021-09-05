@@ -24,9 +24,6 @@ export default class Input extends React.Component<Props, {}> {
     }
     update(event:any) {
         let target = event.target;
-        if (event.target.type == "text") {
-            // console.log(event.target.value)
-        }
         this.props.update(event.target.value);
     }
 }

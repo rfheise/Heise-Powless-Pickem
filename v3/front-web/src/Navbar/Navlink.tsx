@@ -7,9 +7,9 @@ interface Props {
 
 function Navlink(props:Props) {
     return (
-        <div className = "navlink-div">
-            <a className = "navlink" href = {props.route}>{props.title}</a>
-        </div>
+        <a className = "navlink-div" href = {props.route}>
+            <div className = "navlink">{props.title}</div>
+        </a>
     )
 }
 

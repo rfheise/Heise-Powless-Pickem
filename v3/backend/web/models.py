@@ -18,6 +18,9 @@ class Team(models.Model):
     bye = models.ForeignKey("Week", on_delete = models.PROTECT,null = True, default = None)
     #logo
     logo = models.ImageField(upload_to = "logos",blank = True, default = "")
+
+    def __str__(self):
+        return self.name
 class Week(models.Model):
     #week number
     week = models.IntegerField()
@@ -43,7 +46,7 @@ class Game(models.Model):
     #week of game
     week = models.ForeignKey(Week, on_delete = models.CASCADE, related_name = "games")
     #day of game
-    date = models.DateTimeField(default = timezone.now())
+    date = models.DateTimeField(default = timezone.now)
 
 class User(AbstractUser):
     #required creation fields
@@ -62,6 +65,8 @@ class User(AbstractUser):
     ties = models.IntegerField(default = 0)
     #avg_margin of victory
     avg_margin = models.FloatField(default = 0)
+    def __str__(self):
+        return f"{self.first_name}"
     def create_user(**kwargs):
         #make sure password exists
         keys = kwargs.keys()
@@ -97,9 +102,17 @@ class User(AbstractUser):
         user.set_password(password)
         user.save()
         return user
-        
-    
 
+class Vote(models.Model):
+    team = models.ForeignKey(Team, on_delete = models.CASCADE, related_name="votes")
+    user = models.ForeignKey(User, on_delete= models.CASCADE, related_name= "votes")
+    
+    #creates a vote from a user object and team name as string
+    def createVote(user, team):
+        team = Team.objects.get(name = team)
+        return Vote.objects.create(team = team, user = user)
+    def __str__(self):
+        return f"{str(self.team)}-{str(self.user)}"
 class Pick(models.Model):
     # user who made pick
     picker = models.ForeignKey(User, on_delete = models.CASCADE, related_name = "picks")
@@ -108,5 +121,18 @@ class Pick(models.Model):
     #team picked
     team = models.ForeignKey(Team, on_delete = models.CASCADE, related_name = "picks")
 
-
-
+class HallOfFame(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name = "dubs")
+    year = models.IntegerField()
+    record = models.TextField()
+    def __str__(self):
+        return f"{str(self.user)}-{self.year}"
+class Announcements(models.Model):
+    user = models.ForeignKey(User, on_delete = models.CASCADE, related_name = "announcements")
+    timestamp = models.DateTimeField(default= timezone.now)
+    announcement = models.TextField()
+    
+    def __str__(self):
+        return self.announcement
+    def strTime(self):
+        return timezone.localtime(self.timestamp).strftime("%m/%d/%Y %I:%M %p")

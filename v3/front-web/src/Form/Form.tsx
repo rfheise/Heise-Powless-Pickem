@@ -9,7 +9,10 @@ interface Props {
     title:string,
     //api object
     api:API,
-    onSuccess():void
+    onSuccess():void,
+    //auth form
+    auth?:boolean,
+    children?:any,
 
 }
 
@@ -37,8 +40,10 @@ function Form(props:Props) {
     async function submit() {
         let data = inputs.reduce(FormAttribute.jsonReducer, {});
         console.log(data);
-        let request = await props.api.query(data);
+        let request = await props.api.query(data, props.auth);
         if (!request.success) {
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
             setError(request.payload)
         } else {
             props.onSuccess();
@@ -67,6 +72,7 @@ function Form(props:Props) {
             <div className = "form-button" onClick = {submit}>
                Submit
             </div>
+            {props.children}
         </div>
     )
 }

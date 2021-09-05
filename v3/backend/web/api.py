@@ -1,7 +1,7 @@
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
-
-
+from rest_framework import authentication
+from .models import User
+from django.contrib.auth import login, authenticate
 
 class Payload():
     #initializes payload
@@ -42,3 +42,16 @@ def parse(request,method):
 #wrapper for parse
 def parsePost(request):
     return parse(request, "POST")
+
+class Auth(authentication.BaseAuthentication):
+    def authenticate(self, request):
+        username = request.POST['username']
+        password = request.POST['password']
+        if not username or not password:
+            return None
+        user = authenticate(request, username = username, password= password)
+        if user:
+            print("here bruh")
+            return (user, None)
+        else:
+            return None

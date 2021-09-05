@@ -3,6 +3,7 @@ import lexi from "../images/chain.png"
 import { Form, Text,FormAttribute,API, Password, Image } from '../Form/Exports';
 import { useState } from 'react';
 import "../Form/form.css"
+import Link from '../General/Link';
 
 export default function SignIn () {
     const formElements = [
@@ -21,9 +22,10 @@ export default function SignIn () {
     return (
         <Background title = "Sign Up" image = {lexi}>
             <div className = "form-page">
-                <Form onSuccess = {onSuccess} inputs = {formElements} title = "Sign Up" api = {api}/>
+                <Form  auth = {true} onSuccess = {onSuccess} inputs = {formElements} title = "Sign Up" api = {api}>
+                    <Link route = "/login" title = "Have An Account? Login" />
+                </Form>
             </div>
-           
         </Background>
     )
 }

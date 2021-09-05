@@ -76,6 +76,7 @@
     font-family: 'Lora';
     padding: .75rem 2rem .75rem 2rem;
     border-radius: 10px;
+    margin-bottom:1rem;
 }
 .image-input {
     display:none;
@@ -101,5 +102,35 @@
 @media only screen and (max-width: 700px) {
     .form {
         width:80vw;
+    }
+}
+.select-wrapper {
+    width:100%;
+}
+.team-select {
+    align-self:center;
+    height:2rem;
+    width:30%;
+    height:2.5rem;
+    border:2px solid #707070;
+    border-radius:5px;
+    font-family: "Lora";
+    color: #707070;
+    font-size:1.25rem;
+
+}
+.success {
+    color:green;
+    font-family: "Lora";
+    font-size:3rem;
+}
+
+@media only screen and (max-width: 1000px) {
+    .form-header {
+        width:80%;
+        text-align:center;
+    }
+    .team-select {
+        width:100%;
     }
 }

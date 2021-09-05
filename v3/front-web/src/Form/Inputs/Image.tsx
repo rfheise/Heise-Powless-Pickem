@@ -1,6 +1,6 @@
 import Input from "./Input"
 import DefaultImage from "../../images/upload.png"
-
+import Propic from "../../General/Propic"
 
 export default class Image extends Input {
     reader:FileReader;
@@ -23,9 +23,7 @@ export default class Image extends Input {
     render() {
         return (
             <div className = "form-input">
-            <div className = "image-input-border">
-                <img src = {this.state.image} className = "input-image"/>
-            </div>
+            <Propic image = {this.state.image} />
             <input type = "file" id = "image-input" className = "image-input"
                 onChange = {this.update.bind(this)} />
             <label htmlFor = "image-input" className ="form-button">{this.props.title}</label>

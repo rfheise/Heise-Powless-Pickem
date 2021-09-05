@@ -3,11 +3,12 @@ import API from "../Form/API"
 import Background  from "../Background/Background";
 import {Form, Text, Password} from "../Form/Exports"
 import lexi from "../images/dunce.png"
+import Link from "../General/Link";
 export default function Login () {
     const formElements = [
         // new FormAttribute("image", "Profile Picture", Image),
-        new FormAttribute("uname", "Username", Text),
-        new FormAttribute("pword","Password", Password)
+        new FormAttribute("username", "Username", Text),
+        new FormAttribute("password","Password", Password)
     ]
     function onSuccess(){
         window.location.href = "/"
@@ -16,7 +17,10 @@ export default function Login () {
     return (
         <Background title = "Login" image = {lexi}>
             <div className = "form-page">
-                <Form onSuccess = {onSuccess} inputs = {formElements} title = "Login" api = {api}/>
+                <Form auth = {true} onSuccess = {onSuccess} inputs = {formElements} title = "Login" api = {api}>
+                <Link route = "/signup" title = "Need An Account? Sign Up" />
+                </Form>
+                
             </div>
            
         </Background>

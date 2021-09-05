@@ -9,6 +9,26 @@
     height:90px;
     width:100%;
 }
+
+a.navlink-div {
+    text-decoration: none;
+    display:flex;
+    padding-right:2rem;
+}
+.NavLinks {
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+}
+.button {
+    border: 2px solid #707070;
+    padding:.75rem 2rem .75rem 2rem;
+    border-radius:10px;
+    font-size:1.25rem;
+    color:#707070;
+    font-family:"Lola";
+    
+}
 .Navbar {
     height: 90px;
     border-bottom: 1px solid #a09f9f;
@@ -51,18 +71,33 @@
 @media only screen and (max-width: 1000px) {
     .navlink {
         font-size:1.25rem;
+        text-align: center;
+        width:100%;
     }
-    .navlink-div:hover .navlink {
+    a.navlink-div:hover .navlink {
         color:white;
     }
-    .navlink-div:hover {
+    a.navlink-div:hover {
         background-color:#707070;
     }
-    .navlink-div {
+    a.navlink-div {
         padding:1.5rem 0px 1.5rem 0px;
         width:100%;
     }
     .navLink-mobile {
         display:block;
+    }
+    .button {
+        border:0px;
+        padding:1.5rem 0px 1.5rem 0px;
+        font-size:1.25rem;
+        color:#707070;
+        font-family:"Lola";
+    }
+    .button:hover {
+        border-radius: 0px;
+        background-color: #707070;
+        color:white;
+        text-decoration: underline;
     }
 }
