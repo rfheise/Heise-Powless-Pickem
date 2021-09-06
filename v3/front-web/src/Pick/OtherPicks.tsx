@@ -6,7 +6,7 @@ import {useLocation} from 'react-router-dom';
 import API from '../Form/API';
 
 export default function OtherPicks({history, match}:any) {
-    const [picks, setPicks] = useState<PickInterface[]>()
+    const [picks, setPicks] = useState<PickInterface[]>([])
     const {state} = useLocation();
     useEffect(function() {
         (async function() {
@@ -21,6 +21,11 @@ export default function OtherPicks({history, match}:any) {
         <Background image = {back} title = 'Picks'>
             <div className = "pick-list">
                 {picks?.map(pick => (<Pick {...pick} />))}
+                {(picks.length === 0) &&
+                    <div className = "error">
+                        No Picks Yet
+                    </div>
+                }
             </div>
         </Background>
     )

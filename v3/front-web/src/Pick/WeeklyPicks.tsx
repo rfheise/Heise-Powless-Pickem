@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import Pick,{PickInterface} from "./Pick"
-import grand from "../images/grandbama.png"
+import grand from "../images/christmas.png"
 import Background from "../Background/Background"
 import API from "../Form/API"
 import "./pick.css"

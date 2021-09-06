@@ -1,5 +1,5 @@
 import Background from "../Background/Background";
-import clarg from "../images/clarg.png"
+import clarg from "../images/grandbama.jpg"
 import HofBox from "./HofBox"
 import {User} from "../General/Interfaces"
 import { useEffect, useState } from "react";

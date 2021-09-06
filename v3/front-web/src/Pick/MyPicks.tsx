@@ -25,6 +25,11 @@ export default function MyPicks() {
             {picks.map(pick => (
                 <Pick key = {pick.week.week} {...pick} />
             ))}
+            {(picks.length === 0) &&
+                    <div className = "error">
+                        No Picks Yet
+                    </div>
+            }
         </div>
         </Background>
         
