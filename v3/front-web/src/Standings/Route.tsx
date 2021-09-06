@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import API from "../Form/API";
 import Background from "../Background/Background";
 import back from "../images/christmas.png"
+import "./standing.css"
 
 
 export default function Standings() {
@@ -51,6 +52,20 @@ export default function Standings() {
                     </Text>
                 </UserBox>
             ))}
+        </div>
+        <div className = "clicker" onClick = {
+            async () => {
+                //updates standings by querying server 
+                let api = new API("/api/update_standings","get")
+                let req = await api.query({})
+                if (req.success) {
+                    window.location.href = "/standings"
+                }
+            }
+        }>
+            <div className = "form-button standing-button">
+                Update Standings
+            </div>
         </div>
         </Background>
         

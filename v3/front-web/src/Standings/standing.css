@@ -1,0 +1,12 @@
+
+
+.clicker {
+    display:flex;
+    flex-direction:row;
+    justify-content: center;
+    align-items: center;
+}
+.standing-button {
+    width:70vw;
+    text-align:center;
+}

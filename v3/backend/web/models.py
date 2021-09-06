@@ -75,7 +75,9 @@ class Pick(models.Model):
     date = models.DateTimeField(default = timezone.now())
     def __str__(self):
         return f"{self.week} - {self.picker} - {self.team}"
-    def result(self):
+    #returns quality score of pick
+    #used in calculating avg marg and standings
+    def quality_score(self):
         game = self.getGame()
         #calculate relative victory score
         relative_home = None 
@@ -90,6 +92,10 @@ class Pick(models.Model):
         #if post they won
         #if 0 they tied
         relative_score = relative_home - relative_opponent
+        return relative_score
+    def result(self):
+        game = self.getGame()
+        relative_score = self.quality_score()
         if game.home_score == 0 and game.away_score == 0:
             return "no contest"
         elif relative_score > 0:
@@ -162,12 +168,15 @@ class User(AbstractUser):
         picks = self.picks.filter(week__year = week.year).all()
         teams = [*Team.objects.filter(banned = False).exclude(bye = week).order_by("name")]
         for pick in picks:
-            teams.remove(pick.team)
+            try:
+                teams.remove(pick.team)
+            except:
+                pass
         return teams
     #returns array of users sorted by record
     def getStandings():
-        User.calculateStandings()
-        users = User.objects.order_by("-wins","loss","-ties")
+        # User.calculateStandings()
+        users = User.objects.order_by("-wins","loss","-ties", "-avg_margin")
         return users
     #calcuates standings for all users
     def calculateStandings():
@@ -175,7 +184,7 @@ class User(AbstractUser):
         #iterate over all users
         for user in users:
             user.calculateStanding() 
-    #calculates standings for a single user
+    #updates quality_points along the way
     def calculateStanding(self):
         week = Week.getCurrentWeek()
         #get all picks for current year
@@ -185,6 +194,8 @@ class User(AbstractUser):
         self.ties = 0
         self.loss = 0
         #iterate over all picks 
+        #calculates quality_points along the way
+        quality_points = 0
         for pick in picks:
             #gets result from pick
             result = pick.result()
@@ -196,6 +207,8 @@ class User(AbstractUser):
             elif result == "tie":
                 self.ties += 1
             #if result is undefined do nothing
+            quality_points += pick.quality_score()
+        self.avg_margin = quality_points/len(picks)
         self.save()
 
 

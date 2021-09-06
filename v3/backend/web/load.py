@@ -57,3 +57,4 @@ def loadSchedule():
                 else:
                     print("BYE")
                     team.bye = week
+                    team.save()

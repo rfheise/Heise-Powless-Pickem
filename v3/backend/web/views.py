@@ -132,7 +132,11 @@ def get_standings(request):
     standings = UserSerializer(standings, many = True)
     payload = Payload(True, standings.data)
     return payload.apiQuery()
-    
+
+@api_view(["GET"])
+def update_standings(request):
+    User.calculateStandings()
+    return Payload(True, "Success").apiQuery()
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def pick(request):
