@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import {Input, IFormAttribute, Image} from './Exports'
 import API from "./API"
 import FormAttribute from './FormAttribute'
+import Select from "./Inputs/Select"
 interface Props {
     //array of form attributes
     inputs:FormAttribute[],
@@ -16,18 +17,16 @@ interface Props {
 
 }
 
-function Form(props:Props) {
-    //make inputs non read only
-    let inputBuffer = [...props.inputs]
-    //initiaize id's when component mounts
-    for (let i = 0; i < inputBuffer.length; i++) {
-        inputBuffer[i].id = i;
-    }
+export default function Form(props:Props) {
     //initialize inputs form variable array
-    const [inputs, setInputs] = useState<FormAttribute[]>(inputBuffer);
+    const [inputs, setInputs] = useState<FormAttribute[]>([...props.inputs]);
     const [error, setError] = useState<string>("");
+    useEffect(function() {
+        setInputs([...props.inputs])
+    }, [props.inputs])
     //create updater functions
     for (let i = 0; i < inputs.length; i++) {
+        inputs[i].id = i;
         inputs[i].update = function(value:any) {
             let attribute = FormAttribute.copyConstructor(inputs[i]);
             attribute.value = value;
@@ -39,7 +38,6 @@ function Form(props:Props) {
     }
     async function submit() {
         let data = inputs.reduce(FormAttribute.jsonReducer, {});
-        console.log(data);
         let request = await props.api.query(data, props.auth);
         if (!request.success) {
             document.body.scrollTop = 0; // For Safari
@@ -76,4 +74,4 @@ function Form(props:Props) {
         </div>
     )
 }
-export default React.memo(Form);
+// export default React.memo(Form);

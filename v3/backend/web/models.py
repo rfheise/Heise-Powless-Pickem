@@ -24,6 +24,7 @@ class Team(models.Model):
 class Week(models.Model):
     #week number
     week = models.IntegerField()
+    finished = models.BooleanField(default = False)
     uuid = models.UUIDField(default = uuid4, unique = True)
     #nfl year
     year = models.IntegerField()
@@ -34,6 +35,15 @@ class Week(models.Model):
         ("Offseason","Offseason"),
         ("Postseason","Postseason")
     ], default = "Regular Season")
+    def __str__(self):
+        return f"{self.week}-{self.year}"
+    def getCurrentWeek():
+        week = Week.objects.filter(finished = False).order_by("year","week")
+        if not week:
+            return Week.objects.last()
+        else:
+            week = week[0]
+        return week
 class Game(models.Model):
     #home team
     home = models.ForeignKey(Team, on_delete = models.CASCADE, related_name = "home_games")
@@ -47,7 +57,52 @@ class Game(models.Model):
     week = models.ForeignKey(Week, on_delete = models.CASCADE, related_name = "games")
     #day of game
     date = models.DateTimeField(default = timezone.now)
-
+    def strTime(self):
+        return timezone.localtime(self.date).strftime("%m/%d/%Y %I:%M %p")
+    def getGame(team, week):
+        try:
+            return Game.objects.get(home=team, week = week)
+        except:
+            return Game.objects.get(away = team, week = week)
+class Pick(models.Model):
+    # user who made pick
+    picker = models.ForeignKey("User", on_delete = models.CASCADE, related_name = "picks")
+    #week of pick
+    week = models.ForeignKey(Week, on_delete = models.CASCADE, related_name = "picks")
+    #team picked
+    team = models.ForeignKey(Team, on_delete = models.CASCADE, related_name = "picks")
+    #log date
+    date = models.DateTimeField(default = timezone.now())
+    def __str__(self):
+        return f"{self.week} - {self.picker} - {self.team}"
+    def result(self):
+        game = self.getGame()
+        #calculate relative victory score
+        relative_home = None 
+        relative_opponent = None
+        if self.team == game.home:
+            relative_home = game.home_score 
+            relative_opponent = game.away_score 
+        else:
+            relative_home = game.away_score 
+            relative_opponent = game.home_score 
+        #if negative they lost
+        #if post they won
+        #if 0 they tied
+        relative_score = relative_home - relative_opponent
+        if game.home_score == 0 and game.away_score == 0:
+            return "no contest"
+        elif relative_score > 0:
+            return "win"
+        elif  relative_score < 0: 
+            return "loss"
+        else:
+            return "tie"
+    def getGame(self):
+        try:
+            return Game.objects.get(home = self.team, week = self.week)
+        except:
+            return Game.objects.get(away = self.team, week = self.week)
 class User(AbstractUser):
     #required creation fields
     #constant
@@ -66,7 +121,7 @@ class User(AbstractUser):
     #avg_margin of victory
     avg_margin = models.FloatField(default = 0)
     def __str__(self):
-        return f"{self.first_name}"
+        return f"{self.first_name} {self.last_name}"
     def create_user(**kwargs):
         #make sure password exists
         keys = kwargs.keys()
@@ -102,6 +157,47 @@ class User(AbstractUser):
         user.set_password(password)
         user.save()
         return user
+    def getAvailablePicks(self):
+        week = Week.getCurrentWeek()
+        picks = self.picks.filter(week__year = week.year).all()
+        teams = [*Team.objects.filter(banned = False).exclude(bye = week).order_by("name")]
+        for pick in picks:
+            teams.remove(pick.team)
+        return teams
+    #returns array of users sorted by record
+    def getStandings():
+        User.calculateStandings()
+        users = User.objects.order_by("-wins","loss","-ties")
+        return users
+    #calcuates standings for all users
+    def calculateStandings():
+        users = User.objects.all() 
+        #iterate over all users
+        for user in users:
+            user.calculateStanding() 
+    #calculates standings for a single user
+    def calculateStanding(self):
+        week = Week.getCurrentWeek()
+        #get all picks for current year
+        picks = Pick.objects.filter(picker = self, week__year = week.year).all()
+        #init standings to 0
+        self.wins = 0
+        self.ties = 0
+        self.loss = 0
+        #iterate over all picks 
+        for pick in picks:
+            #gets result from pick
+            result = pick.result()
+            #based upon the result it updates user standings
+            if result == "win":
+                self.wins += 1
+            elif result == "loss":
+                self.loss += 1 
+            elif result == "tie":
+                self.ties += 1
+            #if result is undefined do nothing
+        self.save()
+
 
 class Vote(models.Model):
     team = models.ForeignKey(Team, on_delete = models.CASCADE, related_name="votes")
@@ -111,15 +207,62 @@ class Vote(models.Model):
     def createVote(user, team):
         team = Team.objects.get(name = team)
         return Vote.objects.create(team = team, user = user)
+    #return user and what teams they voted for in form
+    # {
+    #  user: userObj
+    #  votes: Vote Str
+    # }
+    def picks():
+        users = User.objects.prefetch_related("votes").all()
+        picks = []
+        #iterate over all users
+        for user in users:
+            #get all votes for a user
+            votes = user.votes.all() 
+            voteStr = ""
+            #add votes to a string
+            for vote in votes:
+                voteStr += f"{vote.team.name} "
+            if len(votes) > 0:
+                #add user votes to picks if 
+                #user has valid picks
+                picks.append( {
+                    "user":user,
+                    "votes":voteStr
+                })
+        return picks
+    #returns array of teams and the number of votes they had
+    # i.e {
+    # vote: voteCount,
+    # team: teamObj
+    # }
+    def tally():
+        votes = Vote.objects.select_related("team").all()
+        teams = {}
+        #calculate all votes for each team
+        for vote in votes:
+            #check if team in list
+            if str(vote.team.uuid) in teams.keys():
+                teams[str(vote.team.uuid)]['votes'] +=  1
+            else:
+                #if not add them in this format
+                teams[str(vote.team.uuid)] = {
+                    "team":vote.team,
+                    "votes":1
+                }
+        #sort used to sort votes list
+        def sortTallies(obj):
+            return (-1 *obj['votes'])
+        votes = []
+        for team in teams.items():
+            votes.append(team[1])
+        votes.sort(key=sortTallies)
+        return votes[:3]
+        
+
+            
     def __str__(self):
         return f"{str(self.team)}-{str(self.user)}"
-class Pick(models.Model):
-    # user who made pick
-    picker = models.ForeignKey(User, on_delete = models.CASCADE, related_name = "picks")
-    #week of pick
-    week = models.ForeignKey(Week, on_delete = models.CASCADE, related_name = "picks")
-    #team picked
-    team = models.ForeignKey(Team, on_delete = models.CASCADE, related_name = "picks")
 
 class HallOfFame(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name = "dubs")

@@ -13,7 +13,6 @@ function Navbar(props:Props) {
         setMenu(menu => (!menu))
     }
     let mobile = (window.innerWidth <= 1000);
-    console.log(mobile)
     return (
         <div className = "nav-parent">
         <div className = "Navbar flex-row">

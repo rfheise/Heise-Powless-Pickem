@@ -9,7 +9,10 @@
     height:90px;
     width:100%;
 }
-
+.loggedin-nav {
+    display:flex;
+    flex-direction: row;
+}
 a.navlink-div {
     text-decoration: none;
     display:flex;
@@ -73,6 +76,11 @@ a.navlink-div {
         font-size:1.25rem;
         text-align: center;
         width:100%;
+    }
+    .loggedin-nav {
+        display:flex;
+        flex-direction: column;
+        align-items: center;
     }
     a.navlink-div:hover .navlink {
         color:white;
