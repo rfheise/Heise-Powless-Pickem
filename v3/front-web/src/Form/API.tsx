@@ -1,11 +1,13 @@
 import {Request} from "./Exports"
-
+import {LoadingContext} from '../App'
+import { useContext } from "react";
 
 
 export default class API {
     route:string;
     method:string;
     static apiRoute = "https://heisepowlesspickem.com"
+    static setLoading:any = null;
     // static apiRoute = "http://127.0.0.1:8000";
     constructor(route:string, method:any) {
         this.route = route;
@@ -15,6 +17,7 @@ export default class API {
     //auth determines if it is an authentication route
     //will save token if so
     async query(data:any,auth = false):Promise<Request> {
+        API.setLoading(true);
         let dataForm = new FormData();
         let keys = Object.keys(data)
         for(let i = 0; i < keys.length; i++) {
@@ -45,8 +48,10 @@ export default class API {
                 window.localStorage.setItem('token', payload.payload['token'])
             }
         } catch {
+            API.setLoading(false);
             return {success:false, payload:"An Error Occured"}
         }
+        API.setLoading(false);
         return payload;
     }
     generateRoute() {

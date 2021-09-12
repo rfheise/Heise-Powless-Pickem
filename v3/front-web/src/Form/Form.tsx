@@ -3,6 +3,7 @@ import {Input, IFormAttribute, Image} from './Exports'
 import API from "./API"
 import FormAttribute from './FormAttribute'
 import Select from "./Inputs/Select"
+import Loading from "../General/Loading"
 interface Props {
     //array of form attributes
     inputs:FormAttribute[],
@@ -52,6 +53,7 @@ export default function Form(props:Props) {
             <div className = "form-header">
                 {props.title}
             </div>
+            <Loading style = {{height:"auto",width:"auto"}} color = "#707070">
             {error && 
                 <div className = "form-error">
                     {error}
@@ -71,6 +73,7 @@ export default function Form(props:Props) {
                Submit
             </div>
             {props.children}
+            </Loading>
         </div>
     )
 }

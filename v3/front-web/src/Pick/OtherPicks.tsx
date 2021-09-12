@@ -18,7 +18,7 @@ export default function OtherPicks({history, match}:any) {
         })()
     }, [])
     return (
-        <Background image = {back} title = 'Picks'>
+        <Background title = 'Picks'>
             <div className = "pick-list">
                 {picks?.map(pick => (<Pick {...pick} />))}
                 {(picks.length === 0) &&

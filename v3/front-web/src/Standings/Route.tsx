@@ -4,7 +4,7 @@ import Text from "../General/Text"
 import { useEffect, useState } from "react";
 import API from "../Form/API";
 import Background from "../Background/Background";
-import back from "../images/clarg.png"
+import back from "../images/backgrounds/clarg.jpg"
 import "./standing.css"
 
 

@@ -20,7 +20,7 @@ export default function MyPicks() {
         })()
     }, [])
     return (
-        <Background image = {back} title = "My Picks">
+        <Background title = "My Picks">
             <div className = "pick-list">
             {picks.map(pick => (
                 <Pick key = {pick.week.week} {...pick} />

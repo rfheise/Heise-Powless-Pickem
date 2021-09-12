@@ -20,7 +20,7 @@ export default function SignIn () {
     }
     const api = new API("/api/signup","post");
     return (
-        <Background title = "Sign Up" image = {lexi}>
+        <Background title = "Sign Up">
             <div className = "form-page">
                 <Form  auth = {true} onSuccess = {onSuccess} inputs = {formElements} title = "Sign Up" api = {api}>
                     <Link route = "/login" title = "Have An Account? Login" />

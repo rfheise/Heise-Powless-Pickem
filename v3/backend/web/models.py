@@ -30,15 +30,17 @@ class Week(models.Model):
     year = models.IntegerField()
     #type of week
     week_type = models.TextField(choices = [
-        ("Regular Season", "Regular Season"),
-        ("Preseason", "Preseason"),
-        ("Offseason","Offseason"),
-        ("Postseason","Postseason")
+        ("REG", "REG"),
+        ("PRE", "PRE"),
+        ("OFF","OFF"),
+        ("POST","POST")
     ], default = "Regular Season")
     def __str__(self):
         return f"{self.week}-{self.year}"
     def getCurrentWeek():
-        week = Week.objects.filter(finished = False).order_by("year","week")
+        #orders weeks decending by year and accending by week
+        week = Week.objects.filter(finished = False).order_by("-year","week")
+        #grabs first week from most recent year that is not finished
         if not week:
             return Week.objects.last()
         else:
@@ -56,7 +58,17 @@ class Game(models.Model):
     #week of game
     week = models.ForeignKey(Week, on_delete = models.CASCADE, related_name = "games")
     #day of game
-    date = models.DateTimeField(default = timezone.now)
+    date = models.DateTimeField(default = timezone.now, blank = True)
+    #qb away
+    qb_away = models.TextField(blank = True, default = "")
+    #qb home 
+    qb_home = models.TextField(blank = True, default = "")
+    #coach_home 
+    coach_home = models.TextField(blank = True, default = "")
+    #coach_away 
+    coach_away = models.TextField(blank = True, default = "")
+    #espn game id in case I need espn api
+    espnId = models.IntegerField(default = 0)
     def strTime(self):
         return timezone.localtime(self.date).strftime("%m/%d/%Y %I:%M %p")
     def getGame(team, week):
@@ -208,7 +220,10 @@ class User(AbstractUser):
                 self.ties += 1
             #if result is undefined do nothing
             quality_points += pick.quality_score()
-        self.avg_margin = quality_points/len(picks)
+        if len(picks) > 0:
+            self.avg_margin = quality_points/len(picks)
+        else:
+            self.avg_margin = 0
         self.save()
 
 

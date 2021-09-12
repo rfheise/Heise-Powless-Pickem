@@ -1,5 +1,4 @@
 import Background from "../Background/Background";
-import clarg from "../images/grandbama.jpg"
 import HofBox from "./HofBox"
 import {User} from "../General/Interfaces"
 import { useEffect, useState } from "react";
@@ -31,7 +30,7 @@ export default function HallOfFame() {
     }, []) 
     let id = 0;
     return (
-        <Background title = "Hall of Fame" image = {clarg}>
+        <Background title = "Hall of Fame">
             <div className = "hof">
                 {hofs.map(hof => (
                     <HofBox key = {id++} {...hof} />

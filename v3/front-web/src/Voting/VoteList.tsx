@@ -25,7 +25,7 @@ export default function Voting() {
         })()
     },[])
     return (
-        <Background image = {melody} title = "Current Votes">
+        <Background title = "Current Votes">
             <div className = "hof">
             <div className = "user-box">
                 <Text size = "2rem" color = "#505050">

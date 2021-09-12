@@ -1,4 +1,4 @@
-import Background from "../Background/Background";
+import { BackgroundParent } from "../Background/Background";
 import { API, Text } from "../Form/Exports";
 import Form from "../Form/Form";
 import FormAttriubte from "../Form/FormAttribute";
@@ -15,7 +15,7 @@ export default function Pick() {
         (async function() {
             let api = new API("/api/get_picks", "get");
             let req = await api.query({})
-            if (req.payload) {
+            if (req.success) {
                 setTeams(req.payload.teams)
             }
         })()
@@ -27,7 +27,7 @@ export default function Pick() {
     ]
     let api = new API("/api/pick", "post")
     return (
-        <Background image = {powless} title = "Make A Pick">
+        <BackgroundParent title = "Make A Pick">
             <div className = "make-pick">
             {!success ?
                 
@@ -45,7 +45,7 @@ export default function Pick() {
             </div>
             
             
-        </Background>
+        </BackgroundParent>
         
     )
 }

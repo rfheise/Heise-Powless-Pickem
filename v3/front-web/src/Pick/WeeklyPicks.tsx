@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import Pick,{PickInterface} from "./Pick"
 import grand from "../images/christmas.png"
 import Background from "../Background/Background"
@@ -24,7 +24,7 @@ export default function WeeklyPicks() {
         weeks.push((i).toString())
     }
     return (
-        <Background image = {grand} title = "Weekly Picks">
+        <Background title = "Weekly Picks">
             <div className = "pick-list">
                 <DropDown 
                     title = "Week"
@@ -32,7 +32,7 @@ export default function WeeklyPicks() {
                     options = {weeks}
                     onChange = {(week:string) => {setWeek(week)}}
                 />
-                {picks.map(pick => (<Pick {...pick}/>))}
+                {picks.map(pick => (<Pick key = {pick.picker.username} {...pick}/>))}
                 {(picks.length === 0) &&
                     <div className = "error">
                         No Picks Yet

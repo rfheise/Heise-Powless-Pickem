@@ -23,8 +23,12 @@ import {
 import Announcements from './Announcements/Route';
 import API from './Form/API';
 
+export const LoadingContext:any = React.createContext(null);
+
 function App() {
   const [loggedin, setLogin] = useState<Boolean>(false);
+  const [loading, setLoading] = useState<Boolean>(false);
+  API.setLoading = setLoading;
   function click() {
     window.location.href = (loggedin ?
       "/logout" : "/login"
@@ -41,6 +45,7 @@ function App() {
   },[]) 
   return (
     <Router>
+    <LoadingContext.Provider value = {{loading:loading, setLoading:setLoading}}>
     <div className = "body">
       <Navbar title = "Heise Powless">
         <Navlink route = "/" title = "Announcements" />
@@ -95,7 +100,8 @@ function App() {
             <OtherPicks />
           </Route>
         </Switch>
-      </div>
+      </div>          
+      </LoadingContext.Provider>
     </Router>
   );
 }

@@ -158,8 +158,12 @@ def pick(request):
     if game.date < timezone.now():
         return Payload(False, "Game Already Started").apiQuery()
     try:
-        pick = Pick.objects.get(week = week)
+        pick = Pick.objects.get(week = week, picker = user)
+        game = pick.getGame()
+        if game.date < timezone.now():
+            return Payload(False, "Picked Game Already Started").apiQuery()
         pick.team = team 
+        pick.date = timezone.now()
         pick.save()
     except:
         Pick.objects.create(picker = user, team = team, week = week)

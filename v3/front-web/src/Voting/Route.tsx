@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Background from "../Background/Background";
+import Background, { BackgroundParent } from "../Background/Background";
 import API from "../Form/API";
 import Form from "../Form/Form";
 import FormAttriubte from "../Form/FormAttribute";
@@ -17,7 +17,7 @@ export default function Voting() {
         setSuccess(success => (!success))
     }
     return (
-        <Background title = "Ban Some Teams" image = {background}>
+        <BackgroundParent title = "Ban Some Teams">
             {!success?
                 <div className = "form-page">
                     <Form title = "Banned Teams" 
@@ -34,7 +34,7 @@ export default function Voting() {
                 </div>
             </div>
             }
-        </Background>
+        </BackgroundParent>
         
     ) 
 }

@@ -1,18 +1,25 @@
 from .models import *
 from django.utils import timezone
-
+import datetime
+import csv
 #loads in schedule sheet into db
-def loadSheet():
+def load():
     #loads weeks into db
     loadWeeks()
     #adds teams to db
     loadTeams()
     #loads in games from schedule for 2021 season
     loadSchedule()
+    #load in games from past 20 years and game times for current season
+    loadComplete()
 def loadWeeks():
+    #load weeks fro current season
     for i in range(1, 19):
         #create weeks 1 - 18 for the 2021 season
-        Week.objects.create(week = i, year = 2021, week_type = "Regular Season")
+        #if week exists don't do anything have to preserver old weeks
+        week, created = Week.objects.get_or_create(week = i, year = 2021)
+        week.week_type = "REG"
+        week.save()
 def loadTeams():
     #loop over lines in games csv file
     with open("./web/games.csv","r") as f:
@@ -20,7 +27,8 @@ def loadTeams():
         for line in f:
             line = line.split(",")
             #first cell is team name, second is team abreviation
-            Team.objects.create(abrv = line[1],name = line[0])
+            #if team already exists don't add them
+            team, created = Team.objects.get_or_create(abrv = line[1], name = line[0])
 def loadSchedule():
     #open the file
     with open("./web/games.csv", "r") as f:
@@ -58,3 +66,45 @@ def loadSchedule():
                     print("BYE")
                     team.bye = week
                     team.save()
+
+def formatTeam(team):
+    changes = {"STL":"LAR","OAK":"LV","WAS":"WSH","SD":"LAC","LA":"LAR"}
+    if team in changes.keys():
+        return changes[team]
+    return team
+#loads all games from game complete       
+def loadComplete():
+    with open("./web/gamesComplete.csv", "r") as f:
+        games = csv.DictReader(f)
+        for game in games:
+            #proccess game time
+            date = ""
+            if game['gameday'] and game['gametime']:
+                strTime = game['gameday'] + " " + game['gametime'] 
+                date = datetime.datetime.strptime(strTime, "%Y-%m-%d %H:%M")
+            # print(date + "date")
+            #get or create a week
+            week, created = Week.objects.get_or_create(year = game['season'], week = game['week'], week_type = game['game_type'])
+            #if scores are empty make them 0
+            if game['home_score'] == "" or game['away_score'] == "":
+                game['home_score'] = 0
+                game['away_score'] = 0
+            #enter all fields for game
+            away = Team.objects.get(abrv = formatTeam(game['away_team']))
+            home = Team.objects.get(abrv = formatTeam(game['home_team']))
+            #create game object and edit fields
+            gamer, created = Game.objects.get_or_create(week = week, away = away, home = home)
+            gamer.away_score = game['away_score']
+            gamer.home_score = game['home_score']
+            gamer.qb_home = game['home_qb_name']
+            gamer.qb_away = game['away_qb_name']
+            gamer.coach_home = game['home_coach']
+            gamer.coach_away = game['away_coach']
+            if game['espn']:
+                gamer.espnId = game['espn']
+            #print out cool game data
+            print(f"{gamer.home.abrv} - {gamer.away.abrv} - {week.year}")
+            #convert date into timezone aware eastern and then save it
+            if date:
+                gamer.date = timezone.make_aware(date) 
+            gamer.save()

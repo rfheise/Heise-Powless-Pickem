@@ -17,9 +17,9 @@ export default function Announcements() {
         })()
     },[]) 
     return (
-        <Background title = "announcements" image = {baseball}>
+        <Background title = "announcements">
             <div className = "announcements">
-                {announcements.map(announcement => (<Announcement {...announcement} />))}
+                {announcements.map(announcement => (<Announcement key = {announcement.timestamp} {...announcement} />))}
             </div>
         </Background>
     )
