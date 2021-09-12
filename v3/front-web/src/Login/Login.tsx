@@ -18,7 +18,7 @@ export default function Login () {
         <BackgroundParent title = "Login">
             <div className = "form-page">
                 <Form auth = {true} onSuccess = {onSuccess} inputs = {formElements} title = "Login" api = {api}>
-                <Link route = "/signup" title = "Need An Account? Sign Up" />
+                {/* <Link route = "/signup" title = "Need An Account? Sign Up" /> */}
                 </Form>
                 
             </div>
