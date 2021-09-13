@@ -47,10 +47,10 @@ class Week(models.Model):
             week = week[0]
         return week
 class Game(models.Model):
-    #home team
-    home = models.ForeignKey(Team, on_delete = models.CASCADE, related_name = "home_games")
     #away team
     away = models.ForeignKey(Team, on_delete = models.CASCADE, related_name = "away_games")
+    #home team
+    home = models.ForeignKey(Team, on_delete = models.CASCADE, related_name = "home_games")
     #away score
     away_score = models.IntegerField(default = 0)
     #home score
