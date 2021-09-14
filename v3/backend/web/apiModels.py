@@ -38,7 +38,7 @@ class PickSerializer(serializers.ModelSerializer):
     team = TeamSerializer(read_only = True, many = False)
     class Meta:
         model = Pick 
-        fields = ['week','picker','team']
+        fields = ['week','picker','team','result']
 
 class GameSerializer(serializers.ModelSerializer):
     date = serializers.ReadOnlyField(source = "strTime")

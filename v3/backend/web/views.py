@@ -174,13 +174,13 @@ def pick(request):
 def my_picks(request):
     user = request.user
     week = Week.getCurrentWeek()
-    picks = Pick.objects.filter(picker=user, week__year = week.year).order_by("-week__week")
+    picks = Pick.objects.filter(picker=user, week__year = week.year).select_related("picker", "week", "team").order_by("-week__week")
     serializedPicks = PickSerializer(picks, many = True)
     return Payload(True, serializedPicks.data).apiQuery()
 @api_view(["GET"])
 def weekly_picks(request, week_num):
     curr_week = Week.getCurrentWeek()
-    picks = Pick.objects.filter(week__year = curr_week.year, week__week = week_num).all()
+    picks = Pick.objects.filter(week__year = curr_week.year, week__week = week_num).select_related("picker", "week", "team").all()
     return Payload(True, PickSerializer(picks, many = True).data).apiQuery()
 @api_view(["GET"])
 #tallies votes and returns who voted what
