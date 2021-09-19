@@ -6,9 +6,9 @@ import { useContext } from "react";
 export default class API {
     route:string;
     method:string;
-    static apiRoute = "https://heisepowlesspickem.com"
+    // static apiRoute = "https://heisepowlesspickem.com"
     static setLoading:any = null;
-    // static apiRoute = "http://127.0.0.1:8000";
+    static apiRoute = "http://127.0.0.1:8000";
     constructor(route:string, method:any) {
         this.route = route;
         this.method = method;

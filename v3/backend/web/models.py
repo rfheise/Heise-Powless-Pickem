@@ -141,6 +141,7 @@ class User(AbstractUser):
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
     def create_user(**kwargs):
+        kwargs['username'] = kwargs['username'].lower()
         #make sure password exists
         keys = kwargs.keys()
         #make sure required fields exist

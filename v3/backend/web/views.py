@@ -19,7 +19,7 @@ from rest_framework.authtoken.models import Token
 @permission_classes([])
 # @UnknownError
 def login(request):
-    username = request.POST['username']
+    username = request.POST['username'].lower()
     password = request.POST['password']
     user = authenticate(request, username=username, password=password)
     payload = Payload(False, "Username or Password Invalid")
@@ -38,7 +38,7 @@ def signup(request):
     try:
         post = parsePost(request)
         user = User.create_user(**post)
-        user = authenticate(request, username=post["username"], password=post["password"])
+        user = authenticate(request, username=post["username"].lower(), password=post["password"])
         payload = Payload(False, "Username or Password Invalid")
         Token.objects.filter(user=user).all().delete()
         token = Token.objects.create(user=user)
