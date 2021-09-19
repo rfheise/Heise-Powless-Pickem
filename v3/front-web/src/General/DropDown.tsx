@@ -13,6 +13,7 @@ export default function DropDown(props:DropDown) {
     function updater(event:any) {
         props.onChange(event.target.value)
     }
+    let key = 0;
     return (
         <div className = "drop-down">
             <div className = "drop-down-title">
@@ -21,7 +22,7 @@ export default function DropDown(props:DropDown) {
             <select className = "drop-down-select" value = {props.currentSelection}
                 onChange = {updater}>
                 {props.options.map(opt => (
-                    <option value = {opt}>{opt}</option>
+                    <option key = {key++} value = {opt}>{opt}</option>
                 ))}
             </select>
         </div>

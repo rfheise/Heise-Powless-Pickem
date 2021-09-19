@@ -5,19 +5,40 @@ import Background from "../Background/Background"
 import API from "../Form/API"
 import "./pick.css"
 import DropDown from "../General/DropDown"
+import {Week} from "../General/Interfaces"
 
 export default function WeeklyPicks() {
     const [picks, setPicks] = useState<PickInterface[]>([])
-    const [week, setWeek] = useState<string>("1")
+    const [week, setWeek] = useState<string>("")
+    //gets picks for the week with the current week variable
+    async function getPicks() {
+        let api = new API(`/api/weekly_picks/week/${week}`, "get")
+        let req = await api.query({})
+        if (req.success) {
+            setPicks(req.payload)
+        }
+    }
+    //gets current week
+    async function getCurrentWeek() {
+        let api = new API(`/api/current_week`,"get")
+        let req = await api.query({})
+        if (req.success) {
+            //set current week
+            setWeek("" + req.payload.week)
+        } else {
+            //else use default week
+            setWeek("1")
+        }
+    }
     //after drop down changes
     useEffect(function(){
-        (async function() {
-            let api = new API(`/api/weekly_picks/week/${week}`, "get")
-            let req = await api.query({})
-            if (req.success) {
-                setPicks(req.payload)
-            }
-        })()
+        //if no week yet get the current week
+        if (week === "") {
+            getCurrentWeek();
+        } else {
+            getPicks();
+        }
+        
     },[week])
     let weeks:string[] = []
     for(let i = 1; i <= 18; i++) {

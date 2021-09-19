@@ -9,14 +9,12 @@ from django.contrib.auth import login, authenticate
 from .models import User, Announcements, Vote, HallOfFame, Game, Week, Team, Pick
 from django.utils import timezone
 from .apiModels import AnnouncementSerializer, \
-    HallOfFameSerializer, TeamSerializer, UserSerializer, GameSerializer, PickSerializer
+    HallOfFameSerializer, TeamSerializer, UserSerializer, GameSerializer, PickSerializer, WeekSerializer
 from rest_framework.authtoken.models import Token
 # Create your views here.
 
 #user login
 @api_view(["POST"])
-@authentication_classes([])
-@permission_classes([])
 # @UnknownError
 def login(request):
     username = request.POST['username'].lower()
@@ -65,8 +63,6 @@ def logout(request):
 #announcement query api
 #returns list of announcement objects
 @api_view(["GET"])
-@authentication_classes([])
-@permission_classes([])
 def announcements(request):
     #gets all announcements
     announcements = AnnouncementSerializer(
@@ -84,7 +80,13 @@ def hof(request):
     )
     payload = Payload(True, hofs.data)
     return payload.apiQuery()
-
+@api_view(["GET"])
+#api end-point for querying the current week
+def get_current_week(request):
+    currentWeek = Week.getCurrentWeek()
+    serializedWeek = WeekSerializer(currentWeek, many = False)
+    payload = Payload(True, serializedWeek.data)
+    return payload.apiQuery()
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 # @UnknownError
