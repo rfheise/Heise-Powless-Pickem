@@ -15,10 +15,11 @@ class TeamSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     win = serializers.ReadOnlyField(source = "wins")
     tie = serializers.ReadOnlyField(source = "ties")
+    avg_margin = serializers.ReadOnlyField(source = "roundMargin")
     class Meta:
         model = User
         fields = ['first_name','last_name','propic','username','uuid',
-            'win', 'tie','loss']
+            'win', 'tie','loss','avg_margin']
 
 class AnnouncementSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only = True, many = False)

@@ -20,6 +20,13 @@ export default function Standings() {
             }
         })()
     }, [])
+    //determines if two users have the same standing
+    //returns true if they do otherwise false
+    function sameStanding(user1:User, user2:User) {
+        return (user1.win == user2.win && 
+            user1.tie == user2.tie && user1.loss == user2.loss 
+            && user1.avg_margin == user2.avg_margin)
+    }
     //convert number to string place
     function place(number:number) {
         if (number % 100 == 11) {
@@ -39,19 +46,36 @@ export default function Standings() {
         }
     }
     let id = 1
+    let lastId = id;
     return (
         <Background image = {back} title = "Standings">
             <div className = "pick-list">
-            {standings.map(user => (
+            {standings.map(user => {
+                let placement = id;
+                //calculate place
+                //if not first user and users have same standing
+                //give them the same place
+                if (id > 1 && sameStanding(standings[lastId - 1], user)) {
+                    placement = lastId;
+                } else {
+                    //update lastId to be new id
+                    lastId = id
+                }
+                //increment count
+                id++
+                return (
                 <UserBox key = {id} user = {user}>
                     <Text color = "#505050" size = "2rem">
-                        {place(id++)}
+                        {place(placement)}
                     </Text>
                     <Text>
             {`${user.win}-${user.loss}-${user.tie}`}
                     </Text>
+                    <Text color = "#909090">
+                        {`Avg Spread: ${user.avg_margin}`}
+                    </Text>
                 </UserBox>
-            ))}
+            )})}
         </div>
         <div className = "clicker" onClick = {
             async () => {

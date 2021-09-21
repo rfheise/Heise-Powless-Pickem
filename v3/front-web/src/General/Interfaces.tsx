@@ -8,7 +8,8 @@ export interface User {
     uuid:string,
     win:number,
     loss:number,
-    tie:number
+    tie:number,
+    avg_margin:number,
 }
 export interface Week {
     week:number,

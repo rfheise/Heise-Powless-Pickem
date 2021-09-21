@@ -197,6 +197,9 @@ class User(AbstractUser):
         #iterate over all users
         for user in users:
             user.calculateStanding() 
+    #returns a rounded average margin
+    def roundMargin(self):
+        return "{:.5g}".format(self.avg_margin)
     #updates quality_points along the way
     def calculateStanding(self):
         week = Week.getCurrentWeek()
@@ -209,6 +212,9 @@ class User(AbstractUser):
         #iterate over all picks 
         #calculates quality_points along the way
         quality_points = 0
+        #only include finsihed games in avg-margin of victory average
+        #i.e. if they have an uncompleted pick don't count it as part of the average
+        completed_games = len(picks)
         for pick in picks:
             #gets result from pick
             result = pick.result()
@@ -219,10 +225,13 @@ class User(AbstractUser):
                 self.loss += 1 
             elif result == "tie":
                 self.ties += 1
+            else:
+                #game was not completed subtract one from picks
+                completed_games -= 1
             #if result is undefined do nothing
             quality_points += pick.quality_score()
         if len(picks) > 0:
-            self.avg_margin = quality_points/len(picks)
+            self.avg_margin = quality_points/completed_games
         else:
             self.avg_margin = 0
         self.save()
