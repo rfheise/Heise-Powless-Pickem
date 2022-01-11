@@ -72,7 +72,7 @@ export default function Standings() {
             {`${user.win}-${user.loss}-${user.tie}`}
                     </Text>
                     <Text color = "#909090">
-                        {`Avg Spread: ${user.avg_margin}`}
+                        {`Avg Margin: ${user.avg_margin}`}
                     </Text>
                 </UserBox>
             )})}

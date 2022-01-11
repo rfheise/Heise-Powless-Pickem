@@ -13,6 +13,6 @@ class WeekAdmin(admin.ModelAdmin):
     list_filter = ("year", "week")
 @admin.register(Game)
 class GameAdmin(admin.ModelAdmin):
-    list_display = ("away","home", "week")
+    list_display = ("away","home", "week","away_score","home_score")
     list_filter = ("week__week", "week__year")
     search_fields = ("home__name__icontains","away__name__icontains")
