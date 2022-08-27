@@ -180,9 +180,8 @@ def my_picks(request):
     serializedPicks = PickSerializer(picks, many = True)
     return Payload(True, serializedPicks.data).apiQuery()
 @api_view(["GET"])
-def weekly_picks(request, week_num):
-    curr_week = Week.getCurrentWeek()
-    picks = Pick.objects.filter(week__year = curr_week.year, week__week = week_num).select_related("picker", "week", "team").all()
+def weekly_picks(request, week_num, week_year):
+    picks = Pick.objects.filter(week__year = week_year, week__week = week_num).select_related("picker", "week", "team").all()
     return Payload(True, PickSerializer(picks, many = True).data).apiQuery()
 @api_view(["GET"])
 #tallies votes and returns who voted what

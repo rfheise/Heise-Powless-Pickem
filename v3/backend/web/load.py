@@ -6,10 +6,10 @@ import csv
 def load():
     #loads weeks into db
     loadWeeks()
-    #adds teams to db
-    loadTeams()
-    #loads in games from schedule for 2021 season
-    loadSchedule()
+    # #adds teams to db
+    # loadTeams()
+    # #loads in games from schedule for 2021 season
+    # loadSchedule()
     #load in games from past 20 years and game times for current season
     loadComplete()
 def loadWeeks():
@@ -17,7 +17,7 @@ def loadWeeks():
     for i in range(1, 19):
         #create weeks 1 - 18 for the 2021 season
         #if week exists don't do anything have to preserver old weeks
-        week, created = Week.objects.get_or_create(week = i, year = 2021)
+        week, created = Week.objects.get_or_create(week = i, year = 2022)
         week.week_type = "REG"
         week.save()
 def loadTeams():

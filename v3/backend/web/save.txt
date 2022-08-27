@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/nflverse/nfldata/master/data/games.csv

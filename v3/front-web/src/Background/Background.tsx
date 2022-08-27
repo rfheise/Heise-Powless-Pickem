@@ -15,15 +15,7 @@ interface Props {
     // children is the body that goes on top of the image
     className ?: string,
 }
-class Background extends React.Component {
-    
-    constructor(props:Props) {
 
-    } 
-    render() {
-
-    }
-}
 //used to set a image background 
 //that has main components scroll on top of image
 //mainly just to resue css and html

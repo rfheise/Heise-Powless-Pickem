@@ -15,7 +15,7 @@ urlpatterns = [
     path("api/pick",views.pick),
     path("api/mypicks",views.my_picks),
     path("api/picks/<str:user_id>",views.get_user_picks),
-    path("api/weekly_picks/week/<str:week_num>", views.weekly_picks),
+    path("api/weekly_picks/week/<str:week_num>/<str:week_year>", views.weekly_picks),
     path("api/standings",views.get_standings),
     path("api/update_standings", views.update_standings),
     path("api/current_week",views.get_current_week),

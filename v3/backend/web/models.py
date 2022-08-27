@@ -189,14 +189,21 @@ class User(AbstractUser):
     #returns array of users sorted by record
     def getStandings():
         # User.calculateStandings()
-        users = User.objects.order_by("-wins","loss","-ties", "-avg_margin")
+        print(User.getAllUsers())
+        users = User.getAllUsers().order_by("-wins","loss","-ties", "-avg_margin")
+        return users
+    def getAllUsers():
+        users_votes = Vote.objects.values_list("user",flat=True)
+        users = User.objects.filter(id__in=set(users_votes)).all()
         return users
     #calcuates standings for all users
     def calculateStandings():
-        users = User.objects.all() 
+        users = User.getAllUsers()
         #iterate over all users
         for user in users:
-            user.calculateStanding() 
+            # checks to see if user has voted this year
+            if Vote.objects.filter(user=user).exists():
+                user.calculateStanding() 
     #returns a rounded average margin
     def roundMargin(self):
         return "{:.5g}".format(self.avg_margin)
@@ -230,7 +237,7 @@ class User(AbstractUser):
                 completed_games -= 1
             #if result is undefined do nothing
             quality_points += pick.quality_score()
-        if len(picks) > 0:
+        if completed_games > 0:
             self.avg_margin = quality_points/completed_games
         else:
             self.avg_margin = 0
