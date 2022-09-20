@@ -33,13 +33,7 @@ class HallOfFameSerializer(serializers.ModelSerializer):
     class Meta:
         model = HallOfFame
         fields = ['user', 'year', 'record']
-class PickSerializer(serializers.ModelSerializer):
-    week = WeekSerializer(read_only = True, many = False)
-    picker = UserSerializer(read_only = True, many = False)
-    team = TeamSerializer(read_only = True, many = False)
-    class Meta:
-        model = Pick 
-        fields = ['week','picker','team','result']
+
 
 class GameSerializer(serializers.ModelSerializer):
     date = serializers.ReadOnlyField(source = "strTime")
@@ -49,3 +43,12 @@ class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Game 
         fields = ['home','away','home_score','away_score','week','date']
+
+class PickSerializer(serializers.ModelSerializer):
+    week = WeekSerializer(read_only = True, many = False)
+    picker = UserSerializer(read_only = True, many = False)
+    team = TeamSerializer(read_only = True, many = False)
+    game = GameSerializer(read_only=True, many=False)
+    class Meta:
+        model = Pick 
+        fields = ['week','picker','team','result','game']

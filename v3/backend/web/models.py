@@ -87,6 +87,8 @@ class Pick(models.Model):
     date = models.DateTimeField(default = timezone.now())
     def __str__(self):
         return f"{self.week} - {self.picker} - {self.team}"
+    def game(self):
+        return Game.getGame(self.team, self.week)
     #returns quality score of pick
     #used in calculating avg marg and standings
     def quality_score(self):

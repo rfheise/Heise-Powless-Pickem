@@ -9,6 +9,7 @@ export interface PickInterface {
     team:Team,
     week:Week,
     result:string,
+    game:any
 }
 
 export default function Pick(props:PickInterface) {
@@ -30,6 +31,12 @@ export default function Pick(props:PickInterface) {
             <Text color = {color}>
                 {props.team.name}
             </Text>
+            {(props.game.home_score > 0 || props.game.away_score > 0) &&
+            <Text color = {color}>
+                {`${props.game.home.abrv}:${props.game.home_score}-${props.game.away.abrv}:${props.game.away_score}`}
+            </Text>    
+            }
+            
             <Text color = {color}>
                 {`Week: ${props.week.week}`}
             </Text>
