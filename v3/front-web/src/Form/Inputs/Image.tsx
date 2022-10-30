@@ -8,7 +8,11 @@ export default class Image extends Input {
     constructor(props:any) {
         super(props)
         this.reader = new FileReader();
-        this.state = {...this.state, image:DefaultImage}
+        let initialImage = DefaultImage;
+        if(props.image){
+            initialImage = props.image;
+        }
+        this.state = {...this.state, image:initialImage}
         this.reader.onload = () => {
             this.setState({image:this.reader.result})
         }

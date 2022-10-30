@@ -7,6 +7,7 @@ urlpatterns = [
     # path("api/signup",views.signup),
     path("api/announcements", views.announcements),
     path("api/loggedin",views.loggedin),
+    path("api/propic", views.update_propic),
     path("api/logout", views.logout),
     path("api/vote", views.vote),
     path("api/hof",views.hof),

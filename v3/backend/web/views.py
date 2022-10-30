@@ -125,6 +125,19 @@ def get_user_picks(request, user_id):
     picks = Pick.objects.filter(picker = user, week__year = week.year).order_by("-week__week")
     return Payload(True, PickSerializer(picks, many = True).data).apiQuery()
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def update_propic(request):
+    try:
+        args = parsePost(request)
+        user = request.user 
+        user.propic = args['image']
+        user.save()
+        return Payload(True, "Profile Picture Changed Successfully").apiQuery()
+    except:
+        return Payload(False, "Issue With File Parsing").apiQuery()
+#gets an image from the user 
+
 @api_view(['GET'])
 #gets current standings
 def get_standings(request):

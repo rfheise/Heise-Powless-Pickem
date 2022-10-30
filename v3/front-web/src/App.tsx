@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import {Navbar, Navlink, NavButton} from "./Navbar/Exports";
-import SignUp from "./Login/SignUp"
-import Login from "./Login/Login"
+import SignUp from "./Account/SignUp"
+import Login from "./Account/Login"
 import Voting from "./Voting/Route"
-import Logout from "./Login/Logout"
+import Logout from "./Account/Logout"
 import Votes from "./Voting/VoteList"
 import HallOfFame from './HallOfFame/Route';
 import Pick from "./Pick/Route"
@@ -13,6 +13,7 @@ import MyPick from "./Pick/MyPicks"
 import OtherPicks from "./Pick/OtherPicks"
 import WeeklyPicks from './Pick/WeeklyPicks';
 import Standings from './Standings/Route';
+import ProPic from './Account/proPic'
 import {
 
   BrowserRouter as Router,
@@ -51,14 +52,15 @@ function App() {
         <Navlink route = "/" title = "Announcements" />
         {loggedin &&
         <div className = "loggedin-nav">
-          <Navlink route = "/vote" title = "Vote" />
+          {/* <Navlink route = "/vote" title = "Vote" /> */}
           <Navlink route = "/pick" title = "Pick" />
           <Navlink route = "/my_picks" title = "My Picks" />
+          <Navlink route = "/propic" title = "Profile Picture" />
         </div>
         }
         <Navlink route = "/standings" title = "Standings" />
         <Navlink route = "/weekly_picks" title = "Weekly Picks" />
-        <Navlink route = "/votes" title = "Current Votes" />
+        {/* <Navlink route = "/votes" title = "Current Votes" /> */}
         <Navlink route = "/hof" title = "Hall of Fame" />
         <NavButton title = {loggedin ? "Logout" : "Login"} onClick = {click}/>
       </Navbar>
@@ -86,6 +88,9 @@ function App() {
           </Route>
           <Route exact path = "/pick">
             <Pick />
+          </Route>
+          <Route exact path = "/propic">
+            <ProPic />
           </Route>
           <Route exact path = "/my_picks">
             <MyPick />
