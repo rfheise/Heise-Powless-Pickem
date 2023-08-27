@@ -17,7 +17,7 @@ def loadWeeks():
     for i in range(1, 19):
         #create weeks 1 - 18 for the 2021 season
         #if week exists don't do anything have to preserver old weeks
-        week, created = Week.objects.get_or_create(week = i, year = 2022)
+        week, created = Week.objects.get_or_create(week = i, year = 2023)
         week.week_type = "REG"
         week.save()
 def loadTeams():

@@ -29,7 +29,7 @@ export default function Voting() {
             <div className = "hof">
             <div className = "user-box">
                 <Text size = "2rem" color = "#505050">
-                    Currently Leading
+                    {teams.length > 0?"Currently Leading":"No Votes Yet"}
                 </Text>
                 {teams.map(team => (
                     <Text> {team.name} </Text>

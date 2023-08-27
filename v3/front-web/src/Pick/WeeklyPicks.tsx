@@ -61,7 +61,7 @@ export default function WeeklyPicks() {
                 <DropDown 
                     title = "Year"
                     currentSelection = {year}
-                    options = {["2021","2022"]}
+                    options = {["2021","2022","2023"]}
                     onChange = {(year:string) => {setYear(year)}}
                 />
                 {picks.map(pick => (<Pick key = {pick.picker.username} {...pick}/>))}
