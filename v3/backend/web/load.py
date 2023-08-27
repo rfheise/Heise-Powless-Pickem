@@ -74,7 +74,7 @@ def formatTeam(team):
     return team
 #loads all games from game complete       
 def loadComplete():
-    with open("./web/gamesComplete.csv", "r") as f:
+    with open("./web/games.csv", "r") as f:
         games = csv.DictReader(f)
         for game in games:
             #proccess game time
