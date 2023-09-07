@@ -12,7 +12,7 @@ interface Props {
 //default user display
 export default function UserBox(props:Props) {
     return (
-        <Link style = {{textDecoration:"none"}} to={{ pathname: `/picks/${props.user.uuid}`, state: props.user.uuid}}>
+        <a style = {{textDecoration:"none"}} href={`/picks/${props.user.uuid}`}>
         <div className = "user-box">
             <Propic image = {API.generateLink(props.user.propic)} 
                 style = {{border:"2px solid #707070"}}/>
@@ -21,6 +21,6 @@ export default function UserBox(props:Props) {
             </Text>
             {props.children}
         </div>
-        </Link>
+        </a>
     )
 }   
