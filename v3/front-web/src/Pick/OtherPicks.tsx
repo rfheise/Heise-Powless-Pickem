@@ -8,7 +8,9 @@ import PickPage from './PickCoalese';
 
 export default function OtherPicks({history, match}:any) {
 
-    const {state} = useLocation();
+    // get user id from url
+    let loc = window.location.pathname;
+    const state = loc.substring(loc.lastIndexOf('/') + 1);
 
     return (
         <PickPage route = {`/api/picks/${state}`} />
