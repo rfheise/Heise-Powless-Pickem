@@ -1,7 +1,7 @@
 from web.models import *
 import csv
 
-for y in range(2015,2021):
+for y in range(2016,2017):
     with open(f"./historical_data/picks-{y}.csv","r") as f:
         
         r = csv.reader(f)

@@ -119,6 +119,7 @@ class Pick(models.Model):
         else:
             return "tie"
     def getGame(self):
+        print(self.team, self.week)
         try:
             return Game.objects.get(home = self.team, week = self.week)
         except:
