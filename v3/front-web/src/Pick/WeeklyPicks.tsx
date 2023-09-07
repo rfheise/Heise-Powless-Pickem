@@ -8,6 +8,7 @@ import DropDown from "../General/DropDown"
 import {Week} from "../General/Interfaces"
 
 
+export const current_year = 2023;
 
 export default function WeeklyPicks() {
     const [picks, setPicks] = useState<PickInterface[]>([])
@@ -32,7 +33,7 @@ export default function WeeklyPicks() {
         } else {
             //else use default week
             setWeek("1")
-            setYear("2021")
+            setYear(current_year.toString())
         }
     }
     //after drop down changes
@@ -49,6 +50,10 @@ export default function WeeklyPicks() {
     for(let i = 1; i <= 18; i++) {
         weeks.push((i).toString())
     }
+    let years = [];
+    for (let i = 2015; i <= current_year; i++) {
+        years.push(i.toString());
+    }
     let id = 0
     return (
         <Background title = "Weekly Picks">
@@ -62,7 +67,7 @@ export default function WeeklyPicks() {
                 <DropDown 
                     title = "Year"
                     currentSelection = {year}
-                    options = {["2015","2016","2017","2018","2019","2020","2021","2022","2023"]}
+                    options = {years}
                     onChange = {(year:string) => {setYear(year)}}
                 />
                 {picks.map(pick => (<Pick key = {`${pick.picker.username}-${pick.week.week}-${year}-${id++}`} {...pick}/>))}

@@ -33,7 +33,7 @@ export default class API {
                 headers['Authorization'] = `Token ${token}`;
             }
             if (this.method == "get") {
-                req = await fetch(this.generateRoute(), {method:"get",headers:headers})
+                req = await fetch(this.generateRoute(data), {method:"get",headers:headers})
             } else {
                 req = await fetch(this.generateRoute(), {body:dataForm, headers:headers, method:this.method})
             }
@@ -54,8 +54,21 @@ export default class API {
         API.setLoading(false);
         return payload;
     }
-    generateRoute() {
-        return `${API.apiRoute}${this.route}`
+    generateRoute(data:any={}) {
+        let str = ""
+        if (this.method == "get") {
+            let keys = Object.keys(data)
+            for (let i = 0; i < keys.length; i++) {
+                if (i == 0) {
+                    str += "?"
+                }
+                str += keys[i] + "=" + data[keys[i]]
+                if (i != keys.length - 1) {
+                    str += "&"
+                }
+            }
+        }
+        return `${API.apiRoute}${this.route}${str}`
     }
     public static getToken() {
         return window.localStorage.getItem("token")

@@ -5,33 +5,11 @@ import { useEffect, useState } from "react"
 import API from "../Form/API"
 import back from "../images/ramsey.png"
 import Background from "../Background/Background"
+import PickPage from "./PickCoalese"
 
 export default function MyPicks() {
-    const [picks, setPicks] = useState<PickInterface[]>([])
-    useEffect(function() {
-        (async function() {
-            let api = new API("/api/mypicks","get")
-            
-            let req = await api.query({})
-            console.log(req.payload)
-            if (req.success) {
-                setPicks(req.payload)
-            }
-        })()
-    }, [])
+  
     return (
-        <Background title = "My Picks">
-            <div className = "pick-list">
-            {picks.map(pick => (
-                <Pick key = {pick.week.week} {...pick} />
-            ))}
-            {(picks.length === 0) &&
-                    <div className = "error">
-                        No Picks Yet
-                    </div>
-            }
-        </div>
-        </Background>
-        
+        <PickPage route = {"/api/mypicks"} />
     )
 }

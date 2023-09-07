@@ -117,12 +117,17 @@ def get_picks(request):
     }
     payload = Payload(True, data)
     return payload.apiQuery()
+
 @api_view(["GET"])
 #gets picks for a user id and returns them
 def get_user_picks(request, user_id):
     user = get_object_or_404(User, uuid = user_id)
-    week = Week.getCurrentWeek()
-    picks = Pick.objects.filter(picker = user, week__year = week.year).order_by("-week__week")
+    if "year" in request.GET:
+        year = request.GET['year']
+    else:
+        week = Week.getCurrentWeek()
+        year = week.year
+    picks = Pick.objects.filter(picker = user, week__year = year).order_by("-week__week")
     return Payload(True, PickSerializer(picks, many = True).data).apiQuery()
 
 @api_view(['POST'])
@@ -188,8 +193,12 @@ def pick(request):
 @permission_classes([IsAuthenticated])
 def my_picks(request):
     user = request.user
-    week = Week.getCurrentWeek()
-    picks = Pick.objects.filter(picker=user, week__year = week.year).select_related("picker", "week", "team").order_by("-week__week")
+    if "year" in request.GET:
+        year = request.GET['year']
+    else:
+        week = Week.getCurrentWeek()
+        year = week.year
+    picks = Pick.objects.filter(picker=user, week__year = year).select_related("picker", "week", "team").order_by("-week__week")
     serializedPicks = PickSerializer(picks, many = True)
     return Payload(True, serializedPicks.data).apiQuery()
 @api_view(["GET"])
