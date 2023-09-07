@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import './nav.css'
 import hamburger from "./hamburger.png"
 import xbutton from "./xbutton.png"
+import Navlink from './Navlink';
+
 interface Props {
     title:string,
     children?:any
@@ -23,9 +25,9 @@ function Navbar(props:Props) {
                 <img className = "hamburger" src = {hamburger} onClick = {toggleMenu}/>
                 : <img className = "hamburger" src = {xbutton} onClick = {toggleMenu} />)
             }
-            <div className = "NavTitle">
+            <a style = {{textDecoration:"none"}} className = "NavTitle" href = "/">
                 {!mobile? "HEISE POWLESS": "HP"}
-            </div>
+            </a>
             {!mobile?
                 <div className = "NavLinks">
                     {props.children}

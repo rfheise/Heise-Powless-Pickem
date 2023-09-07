@@ -3,6 +3,11 @@ from django.utils import timezone
 import datetime
 import csv
 #loads in schedule sheet into db
+
+# current year
+year = 2023
+
+
 def load():
     #loads weeks into db
     loadWeeks()
@@ -12,12 +17,27 @@ def load():
     # loadSchedule()
     #load in games from past 20 years and game times for current season
     loadComplete()
+    loadBye()
+
+def loadBye():
+    teams = Team.objects.all()
+    weeks = Week.objects.filter(year=year).all()
+    for week in weeks:
+        for team in teams:
+            try:
+                game = Game.getGame(team,week)
+            except:
+                team.bye = week
+                team.save()
+                print(f"{team.name} bye week {team.bye.week}")
+        
+
 def loadWeeks():
     #load weeks fro current season
     for i in range(1, 19):
         #create weeks 1 - 18 for the 2021 season
         #if week exists don't do anything have to preserver old weeks
-        week, created = Week.objects.get_or_create(week = i, year = 2023)
+        week, created = Week.objects.get_or_create(week = i, year = year)
         week.week_type = "REG"
         week.save()
 def loadTeams():
@@ -39,7 +59,7 @@ def loadSchedule():
             team = Team.objects.get(abrv = line[1])
             for i in range(1, 19):
                 #get week
-                week = Week.objects.get(week = i, year = 2021)
+                week = Week.objects.get(week = i, year = year)
                 date = timezone.now()
                 home = team
                 away = line[i + 1]
