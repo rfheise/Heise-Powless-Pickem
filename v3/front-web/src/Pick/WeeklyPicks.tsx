@@ -49,6 +49,7 @@ export default function WeeklyPicks() {
     for(let i = 1; i <= 18; i++) {
         weeks.push((i).toString())
     }
+    let id = 0
     return (
         <Background title = "Weekly Picks">
             <div className = "pick-list">
@@ -61,10 +62,10 @@ export default function WeeklyPicks() {
                 <DropDown 
                     title = "Year"
                     currentSelection = {year}
-                    options = {["2021","2022","2023"]}
+                    options = {["2015","2016","2017","2018","2019","2020","2021","2022","2023"]}
                     onChange = {(year:string) => {setYear(year)}}
                 />
-                {picks.map(pick => (<Pick key = {pick.picker.username} {...pick}/>))}
+                {picks.map(pick => (<Pick key = {`${pick.picker.username}-${pick.week.week}-${year}-${id++}`} {...pick}/>))}
                 {(picks.length === 0) &&
                     <div className = "error">
                         No Picks Yet
