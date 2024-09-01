@@ -5,7 +5,7 @@ import csv
 #loads in schedule sheet into db
 
 # current year
-year = 2023
+year = 2024
 
 
 def load():
@@ -106,25 +106,26 @@ def loadComplete():
             #get or create a week
             week, created = Week.objects.get_or_create(year = game['season'], week = game['week'], week_type = game['game_type'])
             #if scores are empty make them 0
-            if game['home_score'] == "" or game['away_score'] == "":
-                game['home_score'] = 0
-                game['away_score'] = 0
-            #enter all fields for game
-            away = Team.objects.get(abrv = formatTeam(game['away_team']))
-            home = Team.objects.get(abrv = formatTeam(game['home_team']))
-            #create game object and edit fields
-            gamer, created = Game.objects.get_or_create(week = week, away = away, home = home)
-            gamer.away_score = game['away_score']
-            gamer.home_score = game['home_score']
-            gamer.qb_home = game['home_qb_name']
-            gamer.qb_away = game['away_qb_name']
-            gamer.coach_home = game['home_coach']
-            gamer.coach_away = game['away_coach']
-            if game['espn']:
-                gamer.espnId = game['espn']
-            #print out cool game data
-            print(f"{gamer.home.abrv} - {gamer.away.abrv} - {week.year}")
-            #convert date into timezone aware eastern and then save it
-            if date:
-                gamer.date = timezone.make_aware(date) 
-            gamer.save()
+            if year == 2024:
+                if game['home_score'] == "" or game['away_score'] == "":
+                    game['home_score'] = 0
+                    game['away_score'] = 0
+                #enter all fields for game
+                away = Team.objects.get(abrv = formatTeam(game['away_team']))
+                home = Team.objects.get(abrv = formatTeam(game['home_team']))
+                #create game object and edit fields
+                gamer, created = Game.objects.get_or_create(week = week, away = away, home = home)
+                gamer.away_score = game['away_score']
+                gamer.home_score = game['home_score']
+                gamer.qb_home = game['home_qb_name']
+                gamer.qb_away = game['away_qb_name']
+                gamer.coach_home = game['home_coach']
+                gamer.coach_away = game['away_coach']
+                if game['espn']:
+                    gamer.espnId = game['espn']
+                #print out cool game data
+                print(f"{gamer.home.abrv} - {gamer.away.abrv} - {week.year}")
+                #convert date into timezone aware eastern and then save it
+                if date:
+                    gamer.date = timezone.make_aware(date) 
+                gamer.save()

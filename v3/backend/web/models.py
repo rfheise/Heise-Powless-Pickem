@@ -192,7 +192,7 @@ class User(AbstractUser):
     #returns array of users sorted by record
     def getStandings():
         # User.calculateStandings()
-        print(User.getAllUsers())
+        # print(User.getAllUsers())
         users = User.getAllUsers().order_by("-wins","loss","-ties", "-avg_margin")
         return users
     def getAllUsers():
