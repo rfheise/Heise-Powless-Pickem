@@ -7,8 +7,11 @@ import Background from "../Background/Background";
 import back from "../images/backgrounds/clarg.jpg"
 import "./standing.css"
 
+interface Props {
+    shame?:boolean
+}
 
-export default function Standings() {
+export default function Standings(props:Props) {
     const [standings, setStandings] = useState<User[]>([])
     //gets initial standings from api
     useEffect(function() {
@@ -47,10 +50,26 @@ export default function Standings() {
     }
     let id = 1
     let lastId = id;
+    let standings_var = [...standings]
+    if (props.shame) {
+        //remove first entry from list 
+        if (standings_var.length > 0) {
+            standings_var.shift()
+        }
+        //reverse list
+        for (let i = 0; i < Math.floor(standings_var.length/2); i++) {
+            
+            let tmp = standings_var[standings_var.length - i - 1];
+            standings_var[standings_var.length - i - 1] = standings_var[i];
+            standings_var[i] = tmp;
+            
+        }
+    }
     return (
         <Background image = {back} title = "Standings">
+            
             <div className = "pick-list">
-            {standings.map(user => {
+            {standings_var.map(user => {
                 let placement = id;
                 //calculate place
                 //if not first user and users have same standing
@@ -66,7 +85,7 @@ export default function Standings() {
                 return (
                 <UserBox key = {id} user = {user}>
                     <Text color = "#505050" size = "2rem">
-                        {place(placement)}
+                        {props.shame?"Hall of Shame":place(placement)}
                     </Text>
                     <Text>
             {`${user.win}-${user.loss}-${user.tie}`}
@@ -77,6 +96,7 @@ export default function Standings() {
                 </UserBox>
             )})}
         </div>
+        {!props.shame &&
         <div className = "clicker" onClick = {
             async () => {
                 //updates standings by querying server 
@@ -91,6 +111,8 @@ export default function Standings() {
                 Update Standings
             </div>
         </div>
+        }
+        
         </Background>
         
     )

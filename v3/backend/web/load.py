@@ -5,7 +5,7 @@ import csv
 #loads in schedule sheet into db
 
 # current year
-year = 2024
+year = 2025
 
 
 def load():
@@ -106,7 +106,7 @@ def loadComplete():
             #get or create a week
             week, created = Week.objects.get_or_create(year = game['season'], week = game['week'], week_type = game['game_type'])
             #if scores are empty make them 0
-            if year == 2024:
+            if week.year == 2025:
                 if game['home_score'] == "" or game['away_score'] == "":
                     game['home_score'] = 0
                     game['away_score'] = 0
