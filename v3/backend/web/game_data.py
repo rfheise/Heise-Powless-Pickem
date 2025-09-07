@@ -2,6 +2,8 @@ from .models import *
 from django.utils import timezone
 import datetime
 import csv
+import requests
+import json
 #loads in schedule sheet into db
 
 # current year
@@ -129,3 +131,38 @@ def loadComplete():
                 if date:
                     gamer.date = timezone.make_aware(date) 
                 gamer.save()
+
+def process_games(data):
+    games = []
+    for game in data["events"]:
+        game_data = {}
+        #get teams
+        game_data["home"] = game['competitions'][0]['competitors'][0]['team']['abbreviation']
+        game_data["away"] = game['competitions'][0]['competitors'][1]['team']['abbreviation']
+        game_data['completed'] = game['status']['type']['completed'] 
+        game_data["home_score"] = game['competitions'][0]['competitors'][0]['score']
+        game_data["away_score"] = game['competitions'][0]['competitors'][1]['score']
+        games.append(game_data)
+    return games
+
+def load_games(week, games):
+    for game in games:
+        if not game['completed']:
+            continue
+        print(game)
+        home = Team.objects.get(abrv = game['home'])
+        away = Team.objects.get(abrv = game['away'])
+        game_db = Game.objects.get(week = week, home = home, away = away)
+        game_db.home_score = game['home_score']
+        game_db.away_score = game['away_score']
+        game_db.save()
+
+def get_live_scores(week,year):
+    db_week = Week.objects.get(week = week, year = year)
+    req = requests.get(f"https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week={db_week.week}&year={db_week.year}")
+    data = json.loads(req.text)
+    games = process_games(data)
+    load_games(db_week, games)
+    
+if __name__ == "__main__":
+    get_live_scores(1,2025)

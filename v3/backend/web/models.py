@@ -46,6 +46,11 @@ class Week(models.Model):
         else:
             week = week[0]
         return week
+    def update_current_week():
+        current_week = Week.objects.filter(finished = False).order_by("-year","week")[0]
+        current_week.finished = True
+        current_week.save()
+    
 class Game(models.Model):
     #away team
     away = models.ForeignKey(Team, on_delete = models.CASCADE, related_name = "away_games")
