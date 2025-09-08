@@ -146,6 +146,7 @@ def process_games(data):
     return games
 
 def load_games(week, games):
+    ret = False
     for game in games:
         if not game['completed']:
             continue
@@ -153,16 +154,31 @@ def load_games(week, games):
         home = Team.objects.get(abrv = game['home'])
         away = Team.objects.get(abrv = game['away'])
         game_db = Game.objects.get(week = week, home = home, away = away)
+        ret = int(game_db.home_score) != int(game['home_score']) or int(game_db.away_score) != int(game['away_score']) or ret
         game_db.home_score = game['home_score']
         game_db.away_score = game['away_score']
         game_db.save()
+    return ret
 
 def get_live_scores(week,year):
     db_week = Week.objects.get(week = week, year = year)
+    if timezone.now() - db_week.last_updated  < datetime.timedelta(hours = 1) or db_week.allGamesComplete():
+        return False
     req = requests.get(f"https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week={db_week.week}&year={db_week.year}")
     data = json.loads(req.text)
     games = process_games(data)
-    load_games(db_week, games)
+    ret = load_games(db_week, games)
+    db_week.last_updated = timezone.now()
+    db_week.save()
+    return ret
+
+def update_week_scores():
+    current_week = Week.getCurrentWeek()
+    weeks = [*Week.objects.filter(year = current_week.year, finished = True).all(), current_week]
+    ret = False
+    for week in weeks:
+        ret = get_live_scores(week.week, week.year) or ret
+    return ret
     
 if __name__ == "__main__":
     get_live_scores(1,2025)

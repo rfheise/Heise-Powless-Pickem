@@ -28,6 +28,7 @@ class Week(models.Model):
     uuid = models.UUIDField(default = uuid4, unique = True)
     #nfl year
     year = models.IntegerField()
+    last_updated = models.DateTimeField(default = timezone.now, auto_now=False)
     #type of week
     week_type = models.TextField(choices = [
         ("REG", "REG"),
@@ -50,6 +51,13 @@ class Week(models.Model):
         current_week = Week.objects.filter(finished = False).order_by("-year","week")[0]
         current_week.finished = True
         current_week.save()
+
+    def allGamesComplete(self):
+        games = self.games.all()
+        for game in games:
+            if game.home_score == 0 and game.away_score == 0:
+                return False
+        return True
     
 class Game(models.Model):
     #away team
@@ -207,6 +215,7 @@ class User(AbstractUser):
     #calcuates standings for all users
     def calculateStandings():
         users = User.getAllUsers()
+
         #iterate over all users
         for user in users:
             # checks to see if user has voted this year
