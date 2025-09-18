@@ -12,6 +12,7 @@ from .apiModels import AnnouncementSerializer, \
     HallOfFameSerializer, TeamSerializer, UserSerializer, GameSerializer, PickSerializer, WeekSerializer
 from rest_framework.authtoken.models import Token
 # Create your views here.
+from .game_data import update_week_scores
 
 #user login
 @api_view(["POST"])
@@ -146,6 +147,12 @@ def update_propic(request):
 @api_view(['GET'])
 #gets current standings
 def get_standings(request):
+
+    try:
+        if update_week_scores():
+            User.calculateStandings()
+    except:
+        pass
     #gets standings
     standings = User.getStandings()
     #serializes standings
@@ -155,7 +162,13 @@ def get_standings(request):
 
 @api_view(["GET"])
 def update_standings(request):
+    
+    try:
+        update_week_scores()
+    except:
+        pass
     User.calculateStandings()
+    
     return Payload(True, "Success").apiQuery()
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])

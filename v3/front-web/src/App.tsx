@@ -8,6 +8,7 @@ import Voting from "./Voting/Route"
 import Logout from "./Account/Logout"
 import Votes from "./Voting/VoteList"
 import HallOfFame from './HallOfFame/Route';
+import HallOfShame from './HallOfFame/Shame';
 import Pick from "./Pick/Route"
 import MyPick from "./Pick/MyPicks"
 import OtherPicks from "./Pick/OtherPicks"
@@ -52,15 +53,15 @@ function App() {
         <Navlink route = "/" title = "Announcements" />
         {loggedin &&
         <div className = "loggedin-nav">
-          <Navlink route = "/vote" title = "Vote" />
-          {/* <Navlink route = "/pick" title = "Pick" /> */}
-          {/* <Navlink route = "/my_picks" title = "My Picks" /> */}
+          {/* <Navlink route = "/vote" title = "Vote" /> */}
+          <Navlink route = "/pick" title = "Pick" />
+          <Navlink route = "/my_picks" title = "My Picks" />
           <Navlink route = "/propic" title = "Modify Profile Picture" />
         </div>
         }
-        {/* <Navlink route = "/standings" title = "Standings" /> */}
-        {/* <Navlink route = "/weekly_picks" title = "Weekly Picks" /> */}
-        <Navlink route = "/votes" title = "Current Votes" />
+        <Navlink route = "/standings" title = "Standings" />
+        <Navlink route = "/weekly_picks" title = "Weekly Picks" />
+        {/* <Navlink route = "/votes" title = "Current Votes" /> */}
         <Navlink route = "/hof" title = "Hall of Fame" />
         <NavButton title = {loggedin ? "Logout" : "Login"} onClick = {click}/>
       </Navbar>
@@ -82,6 +83,9 @@ function App() {
           </Route>
           <Route exact path = "/hof">
             <HallOfFame />
+          </Route>
+          <Route exact path = "/hall_of_shame">
+            <HallOfShame />
           </Route>
           <Route exact path = "/votes">
             <Votes />

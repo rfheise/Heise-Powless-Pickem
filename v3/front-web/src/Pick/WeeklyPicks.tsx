@@ -8,7 +8,7 @@ import DropDown from "../General/DropDown"
 import {Week} from "../General/Interfaces"
 
 
-export const current_year = 2023;
+export const current_year = 2025;
 
 export default function WeeklyPicks() {
     const [picks, setPicks] = useState<PickInterface[]>([])
