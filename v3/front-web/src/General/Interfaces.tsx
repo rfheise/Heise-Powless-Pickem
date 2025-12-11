@@ -10,6 +10,7 @@ export interface User {
     loss:number,
     tie:number,
     avg_margin:number,
+    margin_gap:number|null,
 }
 export interface Week {
     week:number,

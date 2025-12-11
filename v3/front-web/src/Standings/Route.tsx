@@ -6,11 +6,17 @@ import API from "../Form/API";
 import Background from "../Background/Background";
 import back from "../images/backgrounds/clarg.jpg"
 import "./standing.css"
+import { inflate } from "zlib";
 
 interface Props {
     shame?:boolean
 }
 
+function getGameStr(user:User) {
+    return `${user.win}_${user.loss}_${user.tie}`
+}
+
+//standings page
 export default function Standings(props:Props) {
     const [standings, setStandings] = useState<User[]>([])
     //gets initial standings from api
@@ -65,6 +71,25 @@ export default function Standings(props:Props) {
             
         }
     }
+
+    //compute margin gap behind largest margin
+    let max_margin:any = {};
+    for (let i = 0; i < standings_var.length; i++) {
+        let user = standings_var[i];
+        user.margin_gap = Math.round((user.win + user.loss + user.tie) * user.avg_margin)
+        let game_str = getGameStr(user)
+        if (max_margin[game_str] == undefined|| user.margin_gap > max_margin[game_str]) {
+            max_margin[game_str] = user.margin_gap
+        } 
+    }
+    for (let i = 0; i < standings_var.length; i++) {
+        let user = standings_var[i];
+        let game_str = getGameStr(user)
+        if (user.margin_gap !== null) {
+            user.margin_gap =  max_margin[game_str] - user.margin_gap
+        }
+    }
+    
     return (
         <Background image = {back} title = "Standings">
             
@@ -92,6 +117,9 @@ export default function Standings(props:Props) {
                     </Text>
                     <Text color = "#909090">
                         {`Avg Margin: ${user.avg_margin}`}
+                    </Text>
+                    <Text color = "#909090">
+                        {`Margin Tie Gap: ${user.margin_gap == 0? "Leader":user.margin_gap}`}
                     </Text>
                 </UserBox>
             )})}
