@@ -7,7 +7,7 @@ import json
 #loads in schedule sheet into db
 
 # current year
-year = 2025
+year = 2026
 
 
 def load():
@@ -108,7 +108,7 @@ def loadComplete():
             #get or create a week
             week, created = Week.objects.get_or_create(year = game['season'], week = game['week'], week_type = game['game_type'])
             #if scores are empty make them 0
-            if week.year == 2025:
+            if week.year == 2026:
                 if game['home_score'] == "" or game['away_score'] == "":
                     game['home_score'] = 0
                     game['away_score'] = 0
@@ -181,4 +181,4 @@ def update_week_scores():
     return ret
     
 if __name__ == "__main__":
-    get_live_scores(1,2025)
+    get_live_scores(1,2026)

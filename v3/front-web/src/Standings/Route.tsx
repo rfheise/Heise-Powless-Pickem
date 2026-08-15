@@ -118,8 +118,8 @@ export default function Standings(props:Props) {
                     <Text color = "#909090">
                         {`Avg Margin: ${user.avg_margin}`}
                     </Text>
-                    <Text color = "#909090">
-                        {`Margin Tie Gap: ${user.margin_gap == 0? "Leader":user.margin_gap}`}
+                    <Text color = "#909090" size="1.25rem">
+                        {`Margin Tie Difference: ${user.margin_gap == 0? "Tie Leader":user.margin_gap}`}
                     </Text>
                 </UserBox>
             )})}
