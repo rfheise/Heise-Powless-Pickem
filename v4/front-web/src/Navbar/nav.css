@@ -1,5 +1,7 @@
 /* ==========================================================================
-   Navbar — sticky field-green bar with the Heise Powless wordmark
+   Navbar — sticky navy bar with the Heise Powless wordmark.
+   Links are grouped into dropdown menus on desktop; the mobile drawer shows
+   the same groups as open, labelled sections.
    ========================================================================== */
 
 .flex-row {
@@ -70,13 +72,6 @@
   gap: var(--gap-1);
 }
 
-.loggedin-nav {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: var(--gap-1);
-}
-
 a.navlink-div {
   text-decoration: none;
   display: flex;
@@ -126,6 +121,101 @@ a.navlink-div {
 
 .navlink.is-active::after { transform: scaleX(1); }
 
+/* --- dropdown menus ---------------------------------------------------- */
+
+.nav-menu {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.nav-menu-button {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--body);
+  font-weight: 500;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(247, 243, 232, 0.82);
+  padding: 0.55rem 0.85rem;
+  border-radius: var(--r-sm);
+  white-space: nowrap;
+  transition: color 0.16s var(--ease), background-color 0.16s var(--ease);
+}
+
+.nav-menu-button:hover {
+  color: var(--cream-lift);
+  background: rgba(247, 243, 232, 0.08);
+}
+
+.nav-menu-button.is-active {
+  color: var(--cream-lift);
+  font-weight: 600;
+}
+
+/* the little chevron, drawn with borders so there is no asset to load */
+.nav-menu-caret {
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid var(--amber);
+  transition: transform 0.18s var(--ease);
+}
+
+.nav-menu-caret.is-open { transform: rotate(180deg); }
+
+.nav-menu-panel {
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  right: 0;
+  min-width: 210px;
+  z-index: 25;
+  display: flex;
+  flex-direction: column;
+  padding: 0.4rem;
+  border-radius: var(--r-md);
+  background: rgba(15, 32, 56, 0.98);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  backdrop-filter: blur(16px) saturate(1.2);
+  border: 1px solid rgba(242, 145, 0, 0.24);
+  box-shadow: 0 18px 40px -14px rgba(6, 16, 30, 0.85);
+  animation: nav-drop 0.16s var(--ease) both;
+}
+
+@keyframes nav-drop {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* links sit as full-width rows inside a panel, not inline pills */
+.nav-menu-panel a.navlink-div { width: 100%; }
+
+.nav-menu-panel .navlink {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  border-radius: var(--r-sm);
+}
+
+.nav-menu-panel .navlink::after { display: none; }
+
+.nav-menu-panel .navlink:hover {
+  background: rgba(242, 145, 0, 0.16);
+  color: var(--amber);
+}
+
+.nav-menu-panel .navlink.is-active {
+  color: var(--amber);
+}
+
 /* Login / logout button in the bar */
 .button {
   cursor: pointer;
@@ -141,6 +231,7 @@ a.navlink-div {
   color: var(--amber);
   background: transparent;
   white-space: nowrap;
+  flex: none;
   transition: background-color 0.16s var(--ease), color 0.16s var(--ease),
               border-color 0.16s var(--ease);
 }
@@ -151,7 +242,7 @@ a.navlink-div {
   color: #23180A;
 }
 
-/* --- mobile --- */
+/* --- mobile ------------------------------------------------------------ */
 
 .hamburger {
   height: 24px;
@@ -170,6 +261,23 @@ a.navlink-div {
 
 .navLink-mobile {
   display: none;
+}
+
+/* group heading inside the drawer */
+.nav-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.nav-section-label {
+  padding: var(--gap-4) 0.75rem var(--gap-2);
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--amber);
 }
 
 @media only screen and (max-width: 1000px) {
@@ -202,13 +310,6 @@ a.navlink-div {
     to   { opacity: 1; transform: none; }
   }
 
-  .navLink-mobile .loggedin-nav {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
-    width: 100%;
-  }
-
   .navLink-mobile a.navlink-div {
     width: 100%;
   }
@@ -237,7 +338,7 @@ a.navlink-div {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: var(--gap-4) 0 0 0;
+    margin: var(--gap-5) 0 0 0;
     width: 100%;
     min-height: 52px;
     font-size: 0.85rem;

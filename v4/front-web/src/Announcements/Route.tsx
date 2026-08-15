@@ -17,7 +17,7 @@ export default function Announcements() {
         })()
     },[])
     return (
-        <Background title = "Announcements" heading = "Heise Powless"
+        <Background title = "Announcements"
             sub = "Family Football Pick'em">
             <div className = "hp-page">
                 <div className = "announcements">

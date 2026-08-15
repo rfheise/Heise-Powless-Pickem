@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import {Navbar, Navlink, NavButton} from "./Navbar/Exports";
+import NavMenu from "./Navbar/NavMenu";
 import SignUp from "./Account/SignUp"
 import Login from "./Account/Login"
 import Voting from "./Voting/Route"
@@ -14,6 +15,8 @@ import MyPick from "./Pick/MyPicks"
 import OtherPicks from "./Pick/OtherPicks"
 import WeeklyPicks from './Pick/WeeklyPicks';
 import Standings from './Standings/Route';
+import Recap from './Recap/Route';
+import Career from './Career/Route';
 import ProPic from './Account/proPic'
 import {
 
@@ -25,7 +28,9 @@ import {
 import Announcements from './Announcements/Route';
 import API from './Form/API';
 
-export const LoadingContext:any = React.createContext(null);
+//the `any` belongs on the generic, not the variable - annotating the variable
+//as `any` erases Context<T> and makes useContext() infer `unknown`
+export const LoadingContext = React.createContext<any>(null);
 
 function App() {
   const [loggedin, setLogin] = useState<Boolean>(false);
@@ -51,20 +56,47 @@ function App() {
     <div className = "body">
       <a className = "hp-skip" href = "#hp-main">Skip to content</a>
       <Navbar title = "Heise Powless">
-        <Navlink route = "/" title = "Announcements" />
-        {loggedin &&
-        <div className = "loggedin-nav">
-          <Navlink route = "/vote" title = "Vote" />
-          <Navlink route = "/pick" title = "Pick" />
-          <Navlink route = "/my_picks" title = "My Picks" />
-          <Navlink route = "/propic" title = "Modify Profile Picture" />
-        </div>
+        <Navlink route = "/" title = "Recap" />
+        <Navlink route = "/announcements" title = "Announcements" />
+
+        {/* Picks - what you pick and what everyone picked.
+            Logged out there is only one of these, so it stays a plain link
+            rather than a menu with a single item in it. */}
+        {loggedin ?
+          <NavMenu title = "Picks" routes = {["/pick","/my_picks","/weekly_picks"]}>
+            <Navlink route = "/pick" title = "Make A Pick" />
+            <Navlink route = "/my_picks" title = "My Picks" />
+            <Navlink route = "/weekly_picks" title = "Weekly Picks" />
+          </NavMenu>
+          :
+          <Navlink route = "/weekly_picks" title = "Weekly Picks" />
         }
-        <Navlink route = "/standings" title = "Standings" />
-        <Navlink route = "/weekly_picks" title = "Weekly Picks" />
-        <Navlink route = "/votes" title = "Current Votes" />
-        <Navlink route = "/hof" title = "Hall of Fame" />
-        <NavButton title = {loggedin ? "Logout" : "Login"} onClick = {click}/>
+
+        {/* League - everything you read rather than do */}
+        <NavMenu title = "League" routes = {["/standings","/hof","/career"]}>
+          <Navlink route = "/standings" title = "Standings" />
+          <Navlink route = "/hof" title = "Hall of Fame" />
+          <Navlink route = "/career" title = "All Time" />
+        </NavMenu>
+
+        {/* Voting - preseason bans */}
+        {loggedin ?
+          <NavMenu title = "Voting" routes = {["/vote","/votes"]}>
+            <Navlink route = "/vote" title = "Vote" />
+            <Navlink route = "/votes" title = "Current Votes" />
+          </NavMenu>
+          :
+          <Navlink route = "/votes" title = "Current Votes" />
+        }
+
+        {loggedin ?
+          <NavMenu title = "Account" routes = {["/propic","/logout"]}>
+            <Navlink route = "/propic" title = "Profile Picture" />
+            <Navlink route = "/logout" title = "Logout" />
+          </NavMenu>
+          :
+          <NavButton title = "Login" onClick = {click}/>
+        }
       </Navbar>
     <Switch>
           <Route exact path = "/logout">
@@ -77,6 +109,9 @@ function App() {
             <Login />
           </Route>
           <Route exact path = "/">
+              <Recap />
+          </Route>
+          <Route exact path = "/announcements">
               <Announcements />
           </Route> 
           <Route exact path = "/vote">
@@ -102,6 +137,12 @@ function App() {
           </Route>
           <Route exact path = "/weekly_picks">
             <WeeklyPicks />
+          </Route>
+          <Route exact path = "/recap">
+            <Recap />
+          </Route>
+          <Route exact path = "/career">
+            <Career />
           </Route>
           <Route exact path = "/standings">
             <Standings />

@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import './nav.css'
 import hamburger from "./hamburger.png"
 import xbutton from "./xbutton.png"
+import { NavContext } from './NavContext';
 
 interface Props {
     title:string,
@@ -30,6 +31,7 @@ function Navbar(props:Props) {
         }
     }, [])
     return (
+        <NavContext.Provider value = {{mobile:mobile}}>
         <div className = "nav-parent">
         <div className = "Navbar flex-row">
             {mobile && (!menu?
@@ -53,6 +55,7 @@ function Navbar(props:Props) {
             </div>
         }
         </div>
+        </NavContext.Provider>
     )
 }
 

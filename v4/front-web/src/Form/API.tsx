@@ -16,8 +16,11 @@ export default class API {
     //queries api with key value pairs from data
     //auth determines if it is an authentication route
     //will save token if so
-    async query(data:any,auth = false):Promise<Request> {
-        API.setLoading(true);
+    //silent skips the full page loading spinner - use it for secondary
+    //widgets, which are rendered inside <Loading> and would otherwise
+    //unmount themselves the moment they start fetching
+    async query(data:any,auth = false, silent = false):Promise<Request> {
+        if (!silent) API.setLoading(true);
         let dataForm = new FormData();
         let keys = Object.keys(data)
         for(let i = 0; i < keys.length; i++) {
@@ -48,10 +51,10 @@ export default class API {
                 window.localStorage.setItem('token', payload.payload['token'])
             }
         } catch {
-            API.setLoading(false);
+            if (!silent) API.setLoading(false);
             return {success:false, payload:"An Error Occured"}
         }
-        API.setLoading(false);
+        if (!silent) API.setLoading(false);
         return payload;
     }
     generateRoute(data:any={}) {

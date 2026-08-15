@@ -6,13 +6,16 @@ import API from "../Form/API"
 import Background from "../Background/Background"
 import { current_year } from "./WeeklyPicks"
 import DropDown from "../General/DropDown"
+import BurnChart from "../Teams/BurnChart"
 
 interface Props {
-    route:string
+    route:string,
+    //a user uuid, or "me" for the logged in user
+    userId:string,
 }
 
 
-export default function PickPage({route}:Props) {
+export default function PickPage({route, userId}:Props) {
     const [picks, setPicks] = useState<PickInterface[]>([])
     const [year, setYear] = useState<string>(current_year.toString())
     useEffect(function() {
@@ -43,6 +46,7 @@ export default function PickPage({route}:Props) {
                         onChange = {(year:string) => {setYear(year)}}
                     />
                 </div>
+                <BurnChart userId = {userId} year = {year} />
                 {picks.length > 0 &&
                     <div className = "hp-list">
                         {picks.map(pick => (

@@ -13,6 +13,6 @@ export default function OtherPicks({history, match}:any) {
     const state = loc.substring(loc.lastIndexOf('/') + 1);
 
     return (
-        <PickPage route = {`/api/picks/${state}`} />
+        <PickPage route = {`/api/picks/${state}`} userId = {state} />
     )
 }

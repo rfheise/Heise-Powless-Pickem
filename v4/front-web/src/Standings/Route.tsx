@@ -1,5 +1,6 @@
 import UserBox from "../General/UserBox";
 import Stat from "../General/Stat";
+import { place } from "../General/format";
 import {User} from "../General/Interfaces"
 import { useEffect, useState } from "react";
 import API from "../Form/API";
@@ -35,24 +36,6 @@ export default function Standings(props:Props) {
         return (user1.win == user2.win &&
             user1.tie == user2.tie && user1.loss == user2.loss
             && user1.avg_margin == user2.avg_margin)
-    }
-    //convert number to string place
-    function place(number:number) {
-        if (number % 100 == 11) {
-            return `${number}th`
-        } else if (number % 100 == 12) {
-            return `${number}th`
-        } else if (number % 100 == 13) {
-            return `${number}th`
-        } else if (number % 10 == 1) {
-            return `${number}st`
-        } else if (number % 10 == 2) {
-            return `${number}nd`
-        } else if (number % 10 == 3) {
-            return `${number}rd`
-        } else {
-            return `${number}th`
-        }
     }
     let id = 1
     let lastId = id;

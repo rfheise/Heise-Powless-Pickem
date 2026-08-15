@@ -20,4 +20,8 @@ urlpatterns = [
     path("api/standings",views.get_standings),
     path("api/update_standings", views.update_standings),
     path("api/current_week",views.get_current_week),
+    path("api/recap/latest", views.recap_latest),
+    path("api/recap/week/<str:week_num>/<str:week_year>", views.recap),
+    path("api/burn/<str:user_id>/<str:year>", views.burn),
+    path("api/career", views.career),
 ]

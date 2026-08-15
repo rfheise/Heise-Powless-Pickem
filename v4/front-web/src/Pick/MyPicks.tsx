@@ -10,6 +10,6 @@ import PickPage from "./PickCoalese"
 export default function MyPicks() {
   
     return (
-        <PickPage route = {"/api/mypicks"} />
+        <PickPage route = {"/api/mypicks"} userId = {"me"} />
     )
 }

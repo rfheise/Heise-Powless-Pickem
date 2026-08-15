@@ -13,6 +13,9 @@ from .apiModels import AnnouncementSerializer, \
 from rest_framework.authtoken.models import Token
 # Create your views here.
 from .game_data import update_week_scores
+from . import recap as recap_data
+from . import burn as burn_data
+from . import career as career_data
 
 #user login
 @api_view(["POST"])
@@ -239,3 +242,42 @@ def votes(request):
         "picks":serializedPicks
     })
     return payload.apiQuery()
+
+@api_view(["GET"])
+#weekly recap: awards, league scoreboard and standings movement for one week
+def recap(request, week_num, week_year):
+    data = recap_data.build(week_num, week_year)
+    if data is None:
+        return Payload(False, "Week Not Found").apiQuery()
+    return Payload(True, data).apiQuery()
+
+@api_view(["GET"])
+#team usage chart - which teams a player has spent this season.
+#user_id is a uuid, or "me" for the logged in user
+def burn(request, user_id, year):
+    if user_id == "me":
+        if not request.user.is_authenticated:
+            return Payload(False, "Not Logged In").apiQuery()
+        user = request.user
+    else:
+        user = get_object_or_404(User, uuid = user_id)
+    data = burn_data.build(user, year)
+    if data is None:
+        return Payload(False, "Season Not Found").apiQuery()
+    return Payload(True, data).apiQuery()
+
+@api_view(["GET"])
+#all time career history for every player
+def career(request):
+    return Payload(True, career_data.build()).apiQuery()
+
+@api_view(["GET"])
+#recap for the most recently completed week - what the home page opens on
+def recap_latest(request):
+    week = recap_data.latest_week()
+    if week is None:
+        return Payload(False, "No Completed Weeks").apiQuery()
+    data = recap_data.build(week.week, week.year)
+    if data is None:
+        return Payload(False, "No Completed Weeks").apiQuery()
+    return Payload(True, data).apiQuery()
