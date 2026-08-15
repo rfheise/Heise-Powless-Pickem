@@ -35,7 +35,8 @@ interface Movement {
 
 interface RecapData {
     week:Week,
-    scoreboard:{players:number, wins:number, loss:number, ties:number, pending:number},
+    scoreboard:{picks:number, players:number, wins:number, loss:number,
+        ties:number, pending:number},
     awards:{
         blowout:AwardPick|null,
         squeaker:AwardPick|null,
@@ -100,7 +101,8 @@ export default function Recap() {
 
     let board = recap ? recap.scoreboard : null
     //a week nobody has played yet has nothing to recap
-    let settled = board ? (board.players - board.pending) : 0
+    //picks, not players - the last week of the season gives everyone three
+    let settled = board ? (board.picks - board.pending) : 0
     let awards = recap ? recap.awards : null
     let movers = recap ? recap.movement.filter(m => m.delta !== 0) : []
 

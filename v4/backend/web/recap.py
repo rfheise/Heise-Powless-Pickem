@@ -1,15 +1,11 @@
 from .models import User, Week, Pick
 from .apiModels import TeamSerializer, UserSerializer, WeekSerializer
-from .stats import (game_map, played, outcome_of, standings_through, ranks)
+from .stats import (game_map, outcome_of, standings_through, ranks,
+                    season_players)
 
 #Builds the weekly recap.
 #Everything in here is derived from picks and final scores that are already
 #in the database - no new models, no migration.
-
-
-def _league():
-    #same population the standings use: everyone who has voted
-    return User.getAllUsers()
 
 
 def _pick_card(entry):
@@ -25,11 +21,26 @@ def _pick_card(entry):
 
 
 def latest_week():
-    #The most recently completed week. Week.finished already records this and
-    #the update_week cron keeps it current, so just read it - note this is not
-    #Week.getCurrentWeek(), which returns the first *unfinished* week and so
-    #points at a week nobody has played yet.
-    return Week.objects.filter(finished=True).order_by("-year", "-week").first()
+    #The most recently completed week that actually has a recap to show.
+    #Week.finished is the right signal - the update_week cron maintains it -
+    #but the newest finished week is not always the newest *played* one: weeks
+    #can sit marked finished with no picks against them (an ended season, or
+    #a whole year flagged complete at once). So walk back from the newest
+    #finished week until one has a settled pick.
+    #This is not Week.getCurrentWeek(), which returns the first *unfinished*
+    #week and so points at a week nobody has played yet.
+    finished = Week.objects.filter(finished=True).order_by("-year", "-week")
+    with_picks = set(Pick.objects.values_list("week", flat=True).distinct())
+    for week in finished[:60]:
+        if week.id not in with_picks:
+            continue
+        games = game_map([week])
+        for pick in Pick.objects.filter(week=week).select_related("team"):
+            outcome, _ = outcome_of(pick, games)
+            if outcome:
+                return week
+    #nothing settled anywhere - fall back to the newest finished week
+    return finished.first()
 
 
 def build(week_num, year):
@@ -44,7 +55,7 @@ def build(week_num, year):
     if week is None:
         return None
 
-    users = _league()
+    users = season_players(year)
     user_ids = set(u.id for u in users)
     games = game_map([week])
     picks = Pick.objects.filter(week=week).select_related("picker", "team")
@@ -67,8 +78,11 @@ def build(week_num, year):
     settled = [e for e in entries if e["result"] != "pending"]
 
     #--- league scoreboard -------------------------------------------------
+    #picks and players are not the same number: the last week of the season
+    #gives everyone three picks, so count them separately
     scoreboard = {
-        "players": len(entries),
+        "picks": len(entries),
+        "players": len(set(e["pick"].picker_id for e in entries)),
         "wins": len([e for e in settled if e["result"] == "win"]),
         "loss": len([e for e in settled if e["result"] == "loss"]),
         "ties": len([e for e in settled if e["result"] == "tie"]),

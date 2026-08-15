@@ -81,6 +81,17 @@ def outcome_of(pick, games):
     return result(value), value
 
 
+def season_players(year):
+    #Everyone who actually made a pick in this season.
+    #Deliberately not User.getAllUsers(), which means "whoever has voted" - a
+    #live, current-season notion. Clearing the vote table between seasons would
+    #otherwise empty out every historical page.
+    from .models import User
+    ids = set(Pick.objects.filter(week__year=year)
+              .values_list("picker", flat=True).distinct())
+    return list(User.objects.filter(id__in=ids))
+
+
 def standings_through(year, week_num, users):
     #Replays every pick from week 1 through week_num and returns the table as
     #it stood at that point, ordered exactly the way User.getStandings() orders
