@@ -1,0 +1,11 @@
+/* ==========================================================================
+   Hall of Fame — the trophy badge sits a little larger than a rank number
+   ========================================================================== */
+
+.hof {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--gap-4);
+  width: 100%;
+}

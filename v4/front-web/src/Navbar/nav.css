@@ -1,0 +1,247 @@
+/* ==========================================================================
+   Navbar — sticky field-green bar with the Heise Powless wordmark
+   ========================================================================== */
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+/* Reserves the space the fixed bar occupies */
+.nav-parent {
+  height: var(--nav-h);
+  width: 100%;
+}
+
+.Navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 20;
+  width: 100%;
+  height: var(--nav-h);
+  padding: 0 clamp(1rem, 3vw, 2.25rem);
+  justify-content: space-between;
+  gap: var(--gap-4);
+  background: linear-gradient(
+    180deg,
+    rgba(15, 32, 56, 0.94) 0%,
+    rgba(22, 48, 79, 0.90) 100%
+  );
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  backdrop-filter: blur(14px) saturate(1.2);
+  border-bottom: 1px solid rgba(242, 145, 0, 0.28);
+  box-shadow: var(--shadow-nav);
+}
+
+.NavTitle {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(1.6rem, calc(1.1rem + 1.4vw), 2.15rem);
+  line-height: 1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--cream-lift);
+  text-decoration: none;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* The amber dot that ties the wordmark to the accent colour */
+.NavTitle::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--amber);
+  box-shadow: 0 0 0 4px rgba(242, 145, 0, 0.2);
+  flex: none;
+}
+
+.NavTitle:hover { color: #fff; }
+
+.NavLinks {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--gap-1);
+}
+
+.loggedin-nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--gap-1);
+}
+
+a.navlink-div {
+  text-decoration: none;
+  display: flex;
+  border-radius: var(--r-sm);
+}
+
+.navlink {
+  position: relative;
+  font-family: var(--body);
+  font-weight: 500;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(247, 243, 232, 0.82);
+  text-decoration: none;
+  padding: 0.55rem 0.85rem;
+  border-radius: var(--r-sm);
+  white-space: nowrap;
+  transition: color 0.16s var(--ease), background-color 0.16s var(--ease);
+}
+
+.navlink::after {
+  content: "";
+  position: absolute;
+  left: 0.85rem;
+  right: 0.85rem;
+  bottom: 0.28rem;
+  height: 2px;
+  border-radius: var(--r-pill);
+  background: var(--amber);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.2s var(--ease);
+}
+
+.navlink:hover {
+  color: var(--cream-lift);
+  text-decoration: none;
+}
+
+.navlink:hover::after { transform: scaleX(1); }
+
+.navlink.is-active {
+  color: var(--cream-lift);
+  font-weight: 600;
+}
+
+.navlink.is-active::after { transform: scaleX(1); }
+
+/* Login / logout button in the bar */
+.button {
+  cursor: pointer;
+  margin-left: var(--gap-3);
+  padding: 0.55rem 1.35rem;
+  border: 1.5px solid rgba(242, 145, 0, 0.75);
+  border-radius: var(--r-pill);
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--amber);
+  background: transparent;
+  white-space: nowrap;
+  transition: background-color 0.16s var(--ease), color 0.16s var(--ease),
+              border-color 0.16s var(--ease);
+}
+
+.button:hover {
+  background: var(--amber);
+  border-color: var(--amber);
+  color: #23180A;
+}
+
+/* --- mobile --- */
+
+.hamburger {
+  height: 24px;
+  width: 24px;
+  /* 44px tap target without a 44px icon */
+  padding: 10px;
+  box-sizing: content-box;
+  margin: -10px 0 -10px -10px;
+  cursor: pointer;
+  /* the source PNGs are dark; invert them to sit on the navy bar */
+  filter: invert(1) brightness(1.6);
+  opacity: 0.9;
+}
+
+.hamburger:hover { opacity: 1; }
+
+.navLink-mobile {
+  display: none;
+}
+
+@media only screen and (max-width: 1000px) {
+  .Navbar {
+    justify-content: flex-start;
+    gap: var(--gap-4);
+  }
+
+  .navLink-mobile {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: var(--nav-h);
+    left: 0;
+    width: 100%;
+    max-height: calc(100vh - var(--nav-h));
+    overflow-y: auto;
+    z-index: 19;
+    padding: var(--gap-3) var(--gap-4) var(--gap-5);
+    background: rgba(15, 32, 56, 0.97);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(242, 145, 0, 0.28);
+    box-shadow: var(--shadow-nav);
+    animation: hp-drawer 0.22s var(--ease) both;
+  }
+
+  @keyframes hp-drawer {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  .navLink-mobile .loggedin-nav {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    width: 100%;
+  }
+
+  .navLink-mobile a.navlink-div {
+    width: 100%;
+  }
+
+  .navLink-mobile .navlink {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 52px;
+    font-size: 0.95rem;
+    letter-spacing: 0.06em;
+    padding: 0.9rem 0.75rem;
+    border-bottom: 1px solid rgba(247, 243, 232, 0.1);
+    border-radius: 0;
+  }
+
+  .navLink-mobile .navlink::after { display: none; }
+
+  .navLink-mobile .navlink:hover,
+  .navLink-mobile .navlink.is-active {
+    background: rgba(242, 145, 0, 0.14);
+    color: var(--amber);
+  }
+
+  .navLink-mobile .button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: var(--gap-4) 0 0 0;
+    width: 100%;
+    min-height: 52px;
+    font-size: 0.85rem;
+    text-align: center;
+    padding: 0.9rem 1.35rem;
+  }
+}

@@ -1,0 +1,53 @@
+/* ==========================================================================
+   Voting — the leaders callout and its team chips
+   ========================================================================== */
+
+.vote-leaders {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap-4);
+  width: 100%;
+  padding: var(--gap-6) var(--gap-5);
+  text-align: center;
+}
+
+.vote-leaders-title {
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.vote-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--gap-3);
+}
+
+.vote-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1.25rem;
+  border-radius: var(--r-pill);
+  background: var(--field);
+  color: var(--cream-lift);
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 1.35rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  box-shadow: 0 6px 16px -8px rgba(6, 16, 30, 0.8);
+}
+
+.vote-chip:nth-child(1) {
+  background: var(--amber);
+  color: #23180A;
+}
+
+.votes {
+  width: 100%;
+}

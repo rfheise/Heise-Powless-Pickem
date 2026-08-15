@@ -1,0 +1,68 @@
+/* ==========================================================================
+   Picks — result accents on rows, and the make-a-pick page
+   ========================================================================== */
+
+/* Team logos sit on a light disc rather than being cropped like a photo */
+.hp-row-logo {
+  background: var(--cream-lift);
+  border-color: rgba(22, 48, 79, 0.12);
+}
+
+.hp-row-logo img {
+  object-fit: contain;
+  padding: 6px;
+}
+
+/* Result accent stripe down the left edge of the row */
+.hp-row.is-win  { border-left-color: var(--win); }
+.hp-row.is-loss { border-left-color: var(--loss); }
+
+.hp-row.is-win:hover,
+.hp-row.is-loss:hover {
+  background: var(--amber-wash);
+}
+
+/* Week / year pickers sit side by side above the list */
+.hp-filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--gap-4);
+  width: 100%;
+}
+
+.make-pick {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.pick-list {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--gap-4);
+  width: 100%;
+}
+
+@media only screen and (max-width: 720px) {
+  /* the score line needs more room than "Week" or "Result", so the pick row
+     gets weighted columns instead of three equal ones */
+  .hp-pick-stats {
+    grid-auto-columns: minmax(0, 1.7fr) minmax(0, 0.6fr) minmax(0, 0.9fr);
+  }
+
+  .hp-pick-stats .hp-stat-value { font-size: 1.05rem; }
+}
+
+.error {
+  text-align: center;
+  padding: var(--gap-7) var(--gap-4);
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(1.75rem, calc(1.2rem + 2.4vw), 3rem);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--cream);
+  text-shadow: 0 2px 18px rgba(5, 14, 26, 0.55);
+}
