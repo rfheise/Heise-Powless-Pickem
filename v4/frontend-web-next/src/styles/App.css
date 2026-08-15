@@ -1,0 +1,31 @@
+/* ==========================================================================
+   App shell
+   ========================================================================== */
+
+.body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Skip link — first thing a keyboard user reaches */
+.hp-skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 40;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0 0 var(--r-md) 0;
+  background: var(--amber);
+  color: #23180A;
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.hp-skip:focus {
+  left: 0;
+}

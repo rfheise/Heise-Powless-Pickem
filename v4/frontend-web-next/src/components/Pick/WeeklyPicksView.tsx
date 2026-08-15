@@ -1,0 +1,99 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Pick from "./Pick";
+import Background from "../Background/Background";
+import API from "@/lib/api";
+import DropDown from "../General/DropDown";
+import { current_year } from "@/lib/config";
+import { PickInterface } from "@/lib/types";
+
+//Fetched in the browser, not on the server: the week and the picks are both
+//pulled on mount exactly as they were before the port.
+export default function WeeklyPicksView() {
+  const [picks, setPicks] = useState<PickInterface[]>([]);
+  const [week, setWeek] = useState<string>("");
+  const [year, setYear] = useState<string>("");
+  //gets picks for the week with the current week variable
+  async function getPicks() {
+    let api = new API(`/api/weekly_picks/week/${week}/${year}`, "get");
+    let req = await api.query({});
+    if (req.success) {
+      setPicks(req.payload);
+    }
+  }
+  //gets current week
+  async function getCurrentWeek() {
+    let api = new API(`/api/current_week`, "get");
+    let req = await api.query({});
+    if (req.success) {
+      //set current week
+      setWeek("" + req.payload.week);
+      setYear("" + req.payload.year);
+    } else {
+      //else use default week
+      setWeek("1");
+      setYear(current_year.toString());
+    }
+  }
+  //after drop down changes
+  useEffect(
+    function () {
+      //if no week yet get the current week
+      if (week === "" && year == "") {
+        getCurrentWeek();
+      } else if (week !== "" && year !== "") {
+        getPicks();
+      }
+    },
+    [week, year],
+  );
+
+  let weeks: string[] = [];
+  for (let i = 1; i <= 18; i++) {
+    weeks.push(i.toString());
+  }
+  let years = [];
+  for (let i = 2015; i <= current_year; i++) {
+    years.push(i.toString());
+  }
+  let id = 0;
+  return (
+    <Background
+      title="Weekly Picks"
+      sub={week && year ? `Week ${week} · ${year}` : undefined}
+    >
+      <div className="hp-page">
+        <div className="hp-filters">
+          <DropDown
+            title="Week"
+            currentSelection={week}
+            options={weeks}
+            onChange={(week: string) => {
+              setWeek(week);
+            }}
+          />
+          <DropDown
+            title="Year"
+            currentSelection={year}
+            options={years}
+            onChange={(year: string) => {
+              setYear(year);
+            }}
+          />
+        </div>
+        {picks.length > 0 && (
+          <div className="hp-list">
+            {picks.map((pick) => (
+              <Pick
+                key={`${pick.picker.username}-${pick.week.week}-${year}-${id++}`}
+                {...pick}
+              />
+            ))}
+          </div>
+        )}
+        {picks.length === 0 && <div className="error">No Picks Yet</div>}
+      </div>
+    </Background>
+  );
+}

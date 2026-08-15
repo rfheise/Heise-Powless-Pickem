@@ -1,0 +1,298 @@
+/* ==========================================================================
+   Heise Powless — design tokens + base
+   Palette: midnight navy, cream, amber.
+   Type: Barlow Condensed (display + numbers), Montserrat (body + UI).
+   ========================================================================== */
+
+:root {
+  /* --- palette --- */
+  --field:        #16304F;
+  --field-deep:   #0F2038;
+  --field-mid:    #1F4468;
+  --field-soft:   #2E5A85;
+
+  --cream:        #F7F3E8;
+  --cream-lift:   #FFFCF4;
+  --cream-sink:   #EDE7D8;
+
+  --amber:        #F29100;
+  --amber-deep:   #D07C00;
+  --amber-wash:   rgba(242, 145, 0, 0.14);
+
+  --ink:          #2E2A24;
+  --ink-soft:     #5C554A;
+  --ink-faint:    #8A8274;
+
+  --win:          #247D1E;
+  --loss:         #C41414;
+  --tie:          #8A8274;
+
+  /* --- surfaces over the family photos --- */
+  --card:         rgba(250, 247, 239, 0.93);
+  --card-lift:    rgba(255, 253, 247, 0.97);
+  --card-edge:    rgba(255, 255, 255, 0.55);
+  --card-line:    rgba(46, 42, 36, 0.10);
+
+  /* --- type --- */
+  --display: 'Barlow Condensed', 'Alumni Sans', Impact, sans-serif;
+  --body:    'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --fs-display: clamp(2.5rem, calc(1.5rem + 3.6vw), 4.25rem);
+  --fs-h1:      clamp(1.75rem, calc(1.2rem + 2vw), 2.5rem);
+  --fs-h2:      clamp(1.35rem, calc(1.1rem + 1vw), 1.75rem);
+  --fs-lg:      1.125rem;
+  --fs-md:      1rem;
+  --fs-sm:      0.875rem;
+  --fs-xs:      0.75rem;
+
+  /* --- space / shape --- */
+  --gap-1: 0.25rem;
+  --gap-2: 0.5rem;
+  --gap-3: 0.75rem;
+  --gap-4: 1rem;
+  --gap-5: 1.5rem;
+  --gap-6: 2rem;
+  --gap-7: 3rem;
+
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 18px;
+  --r-pill: 999px;
+
+  --shadow-card: 0 18px 40px -14px rgba(6, 16, 30, 0.55),
+                 0 2px 6px -2px rgba(6, 16, 30, 0.25);
+  --shadow-lift: 0 26px 54px -16px rgba(6, 16, 30, 0.62),
+                 0 4px 10px -3px rgba(6, 16, 30, 0.3);
+  --shadow-nav:  0 2px 18px -6px rgba(6, 16, 30, 0.45);
+
+  --nav-h: 68px;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  /* nothing should ever scroll sideways on a phone */
+  overflow-x: hidden;
+  background-color: var(--field-deep);
+  font-family: var(--body);
+  font-size: var(--fs-md);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* kill the grey flash iOS paints over tapped links */
+  -webkit-tap-highlight-color: rgba(242, 145, 0, 0.18);
+}
+
+img {
+  max-width: 100%;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+/* ==========================================================================
+   Shared primitives
+   ========================================================================== */
+
+/* Frosted surface that sits over the family photo */
+.hp-surface {
+  background-color: var(--card);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+  backdrop-filter: blur(14px) saturate(1.15);
+  border: 1px solid var(--card-edge);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+}
+
+/* Page shell: centers content and gives every page a consistent width */
+.hp-page {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: var(--gap-6) var(--gap-4) var(--gap-7);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--gap-5);
+  animation: hp-rise 0.5s var(--ease) both;
+}
+
+@keyframes hp-rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes fadein {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hp-page { animation: none; }
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* Page heading that sits directly on the photo */
+.hp-page-head {
+  text-align: center;
+  padding: var(--gap-4) 0 var(--gap-2);
+}
+
+.hp-page-title {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: var(--fs-display);
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--cream-lift);
+  margin: 0;
+  text-shadow: 0 2px 20px rgba(5, 14, 26, 0.6);
+}
+
+.hp-page-sub {
+  margin: var(--gap-3) 0 0;
+  font-family: var(--body);
+  font-weight: 500;
+  font-size: var(--fs-sm);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(247, 243, 232, 0.78);
+}
+
+.hp-page-title::after {
+  content: "";
+  display: block;
+  width: 68px;
+  height: 3px;
+  margin: var(--gap-3) auto 0;
+  border-radius: var(--r-pill);
+  background: var(--amber);
+}
+
+/* Buttons */
+.hp-btn {
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-2);
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.85rem 1.75rem;
+  border-radius: var(--r-pill);
+  background: var(--amber);
+  color: #23180A;
+  box-shadow: 0 8px 20px -8px rgba(242, 145, 0, 0.8);
+  transition: transform 0.16s var(--ease), box-shadow 0.16s var(--ease),
+              background-color 0.16s var(--ease);
+}
+
+.hp-btn:hover {
+  background: var(--amber-deep);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 26px -8px rgba(242, 145, 0, 0.85);
+}
+
+.hp-btn:active { transform: translateY(0); }
+
+.hp-btn-ghost {
+  background: transparent;
+  color: var(--cream);
+  border: 1.5px solid rgba(247, 243, 232, 0.5);
+  box-shadow: none;
+}
+
+.hp-btn-ghost:hover {
+  background: rgba(247, 243, 232, 0.12);
+  border-color: var(--cream);
+  color: var(--cream-lift);
+  box-shadow: none;
+}
+
+/* Focus ring — visible for keyboard users on every interactive element */
+a:focus-visible,
+button:focus-visible,
+select:focus-visible,
+input:focus-visible,
+label:focus-visible,
+.hp-btn:focus-visible,
+.hp-row:focus-visible {
+  outline: 3px solid var(--amber);
+  outline-offset: 3px;
+}
+
+/* Numeric / stat text */
+.hp-num {
+  font-family: var(--display);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+}
+
+/* ==========================================================================
+   Phone layout — most of the family reads this on a phone, so the small
+   screen gets its own spacing rather than just inheriting the desktop one.
+   ========================================================================== */
+
+@media only screen and (max-width: 720px) {
+  :root {
+    --nav-h: 58px;
+  }
+
+  .hp-page {
+    padding: var(--gap-4) var(--gap-3) var(--gap-6);
+    gap: var(--gap-4);
+  }
+
+  .hp-page-head {
+    padding: var(--gap-3) var(--gap-3) 0;
+  }
+
+  .hp-page-title::after {
+    width: 52px;
+    margin-top: var(--gap-2);
+  }
+
+  .hp-page-sub {
+    margin-top: var(--gap-2);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.12em;
+  }
+
+  /* full-width, thumb-sized buttons */
+  .hp-btn {
+    width: 100%;
+    min-height: 48px;
+    padding: 0.9rem 1.5rem;
+  }
+}
+
+/* Empty state */
+.hp-empty {
+  text-align: center;
+  padding: var(--gap-7) var(--gap-4);
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(1.75rem, calc(1.2rem + 2.4vw), 3rem);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--cream);
+  text-shadow: 0 2px 18px rgba(5, 14, 26, 0.55);
+}

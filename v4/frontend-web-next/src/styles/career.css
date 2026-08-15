@@ -1,0 +1,261 @@
+/* ==========================================================================
+   Career history — all-time table with an expandable detail panel per player
+   ========================================================================== */
+
+.career-block {
+  border-top: 1px solid var(--card-line);
+}
+
+.career-block:first-of-type { border-top: 0; }
+
+/* the row is a button here rather than a link, so reset the button chrome */
+button.career-row {
+  appearance: none;
+  border: 0;
+  border-left: 3px solid transparent;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  border-top: 0;
+}
+
+button.career-row.is-open {
+  background: var(--amber-wash);
+  border-left-color: var(--amber);
+}
+
+.career-trophy {
+  margin-left: 0.35rem;
+  font-size: 0.85em;
+  line-height: 1;
+}
+
+.career-caret {
+  width: 0;
+  height: 0;
+  margin-left: var(--gap-2);
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid var(--ink-faint);
+  transition: transform 0.18s var(--ease);
+  flex: none;
+}
+
+.career-caret.is-open {
+  transform: rotate(180deg);
+  border-top-color: var(--amber-deep);
+}
+
+/* --- expanded detail --- */
+.career-detail {
+  padding: var(--gap-5);
+  background: rgba(46, 42, 36, 0.04);
+  border-top: 1px solid var(--card-line);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-5);
+  animation: career-open 0.2s var(--ease) both;
+}
+
+@keyframes career-open {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* highs and lows strip */
+.career-extremes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--gap-3);
+}
+
+.career-extreme {
+  padding: var(--gap-3) var(--gap-4);
+  border-radius: var(--r-md);
+  background: var(--cream-lift);
+  border: 1px solid var(--card-line);
+}
+
+.career-extreme-label {
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.career-extreme-value {
+  margin-top: 0.2rem;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.75rem;
+  line-height: 1;
+  color: var(--field);
+}
+
+.career-extreme-note {
+  margin-top: 0.25rem;
+  font-family: var(--body);
+  font-size: var(--fs-xs);
+  color: var(--ink-faint);
+}
+
+.career-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--gap-5);
+}
+
+.career-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-2);
+}
+
+.career-panel-title {
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  padding-bottom: var(--gap-2);
+  border-bottom: 1px solid var(--card-line);
+}
+
+.career-panel-title.is-spaced { margin-top: var(--gap-4); }
+
+/* --- season table --- */
+.career-seasons {
+  display: flex;
+  flex-direction: column;
+}
+
+.career-season {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 0.8fr 0.8fr;
+  gap: var(--gap-2);
+  align-items: center;
+  padding: 0.45rem 0.25rem;
+  border-bottom: 1px solid var(--card-line);
+  font-size: var(--fs-sm);
+  color: var(--ink);
+}
+
+.career-season:last-child { border-bottom: 0; }
+
+.career-season.is-head {
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  border-bottom: 1px solid var(--card-line);
+}
+
+.career-season.is-champion {
+  background: rgba(242, 145, 0, 0.09);
+  border-radius: var(--r-sm);
+}
+
+.career-season-year {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 1.05rem;
+  display: flex;
+  align-items: center;
+}
+
+.career-season-avg { color: var(--ink-faint); }
+
+/* --- team lines --- */
+.career-teams {
+  display: flex;
+  flex-direction: column;
+}
+
+.career-team {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr) auto auto;
+  gap: var(--gap-3);
+  align-items: center;
+  padding: 0.4rem 0.25rem;
+  border-bottom: 1px solid var(--card-line);
+}
+
+.career-team:last-child { border-bottom: 0; }
+
+.career-team-logo {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.career-team-logo img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.career-team-name {
+  font-family: var(--body);
+  font-weight: 500;
+  font-size: var(--fs-sm);
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.career-team-count {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--ink-faint);
+}
+
+.career-team-record {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--win);
+  min-width: 3rem;
+  text-align: right;
+}
+
+.career-team-record.is-loss { color: var(--loss); }
+
+/* --- never picked chips --- */
+.career-never {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  padding-top: var(--gap-2);
+}
+
+.career-never-chip {
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--r-sm);
+  background: rgba(46, 42, 36, 0.07);
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  color: var(--ink-faint);
+}
+
+@media only screen and (max-width: 720px) {
+  .career-detail { padding: var(--gap-4); gap: var(--gap-4); }
+  .career-columns { gap: var(--gap-4); }
+  .career-extreme-value { font-size: 1.5rem; }
+
+  /* the caret would eat a whole stat column on the stacked mobile row */
+  .career-caret { display: none; }
+}

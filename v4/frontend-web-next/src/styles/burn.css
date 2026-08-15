@@ -1,0 +1,182 @@
+/* ==========================================================================
+   Team usage (burn) chart — which of the 32 a player has already spent
+   ========================================================================== */
+
+.burn {
+  padding: var(--gap-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-5);
+}
+
+.burn-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--gap-3);
+}
+
+.burn-title {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.6rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--field);
+}
+
+.burn-counts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-2);
+}
+
+.burn-count {
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--r-pill);
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.burn-count.is-available { background: rgba(36, 125, 30, 0.13); color: var(--win); }
+.burn-count.is-burned    { background: rgba(46, 42, 36, 0.08); color: var(--ink-faint); }
+.burn-count.is-banned    { background: rgba(196, 20, 20, 0.12); color: var(--loss); }
+
+.burn-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-3);
+}
+
+.burn-group-label {
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  padding-bottom: var(--gap-2);
+  border-bottom: 1px solid var(--card-line);
+}
+
+/* the grid itself — fills the width, wraps as needed */
+.burn-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(62px, 1fr));
+  gap: var(--gap-3);
+}
+
+.burn-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.5rem 0.25rem 0.4rem;
+  border-radius: var(--r-md);
+  background: var(--cream-lift);
+  border: 1px solid var(--card-line);
+  transition: transform 0.16s var(--ease), box-shadow 0.16s var(--ease);
+}
+
+.burn-logo {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.burn-logo img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.burn-abrv {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+}
+
+/* --- available: full colour, slightly raised --- */
+.burn-tile.is-available {
+  border-color: rgba(36, 125, 30, 0.28);
+  box-shadow: 0 2px 8px -4px rgba(6, 16, 30, 0.35);
+}
+
+.burn-tile.is-available:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px -8px rgba(6, 16, 30, 0.5);
+}
+
+/* --- burned: greyed out, week badge --- */
+.burn-tile.is-burned {
+  background: rgba(46, 42, 36, 0.05);
+  border-color: transparent;
+}
+
+.burn-tile.is-burned .burn-logo img {
+  filter: grayscale(1);
+  opacity: 0.4;
+}
+
+.burn-tile.is-burned .burn-abrv {
+  color: var(--ink-faint);
+  opacity: 0.75;
+}
+
+/* --- banned: greyed out and struck --- */
+.burn-tile.is-banned {
+  background: rgba(196, 20, 20, 0.06);
+  border-color: transparent;
+}
+
+.burn-tile.is-banned .burn-logo img {
+  filter: grayscale(1);
+  opacity: 0.3;
+}
+
+.burn-tile.is-banned .burn-abrv {
+  color: var(--loss);
+  opacity: 0.7;
+  text-decoration: line-through;
+}
+
+/* the little corner chip: week number, or a cross for banned */
+.burn-badge {
+  position: absolute;
+  top: -6px;
+  right: -4px;
+  min-width: 1.35rem;
+  padding: 0.1rem 0.3rem;
+  border-radius: var(--r-pill);
+  background: var(--field);
+  color: var(--cream-lift);
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 0.7rem;
+  line-height: 1.4;
+  text-align: center;
+  box-shadow: 0 2px 6px -2px rgba(6, 16, 30, 0.6);
+}
+
+.burn-badge.is-banned {
+  background: var(--loss);
+}
+
+@media only screen and (max-width: 720px) {
+  .burn { padding: var(--gap-4); gap: var(--gap-4); }
+  .burn-title { font-size: 1.35rem; }
+  .burn-grid { grid-template-columns: repeat(auto-fill, minmax(54px, 1fr)); gap: var(--gap-2); }
+  .burn-logo { width: 28px; height: 28px; }
+  .burn-abrv { font-size: 0.72rem; }
+}

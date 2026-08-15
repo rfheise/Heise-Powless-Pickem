@@ -1,0 +1,394 @@
+/* ==========================================================================
+   Leaderboard rows, stat cells, cards and the year/week dropdown
+   ========================================================================== */
+
+/* --- list container: one frosted slab, rows divided by hairlines --- */
+.hp-list {
+  width: 100%;
+  background-color: var(--card);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+  backdrop-filter: blur(14px) saturate(1.15);
+  border: 1px solid var(--card-edge);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.hp-list-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-3);
+  padding: 0.9rem 1.25rem;
+  background: rgba(22, 48, 79, 0.92);
+  color: var(--cream);
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* --- the row --- */
+.hp-row {
+  display: grid;
+  grid-template-columns: 3.25rem 56px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--gap-4);
+  padding: 0.9rem 1.25rem;
+  text-decoration: none;
+  color: var(--ink);
+  border-top: 1px solid var(--card-line);
+  border-left: 3px solid transparent;
+  transition: background-color 0.16s var(--ease), border-left-color 0.16s var(--ease);
+}
+
+.hp-row:first-child { border-top: 0; }
+
+/* rows without a rank badge (hall of fame, vote list, weekly picks) */
+.hp-row.is-norank {
+  grid-template-columns: 56px minmax(0, 1fr) auto;
+}
+
+.hp-row:hover {
+  background: var(--amber-wash);
+  border-left-color: var(--amber);
+}
+
+/* --- rank badge --- */
+.hp-row-rank {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.25rem;
+  min-width: 2.25rem;
+  padding: 0 0.4rem;
+  border-radius: var(--r-pill);
+  background: rgba(46, 42, 36, 0.07);
+  color: var(--ink-soft);
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.hp-row-rank.is-1 {
+  background: linear-gradient(145deg, #F5C23A, #E0A008);
+  color: #3A2A00;
+  box-shadow: 0 4px 12px -4px rgba(224, 160, 8, 0.9);
+}
+
+.hp-row-rank.is-2 {
+  background: linear-gradient(145deg, #DCDCE0, #B6B7BE);
+  color: #33343A;
+}
+
+.hp-row-rank.is-3 {
+  background: linear-gradient(145deg, #DFA878, #BE7C48);
+  color: #3B2110;
+}
+
+/* Rank slot used for a word instead of a number (Hall of Shame) */
+.hp-row-rank.is-word {
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.1;
+  text-align: center;
+  background: rgba(196, 20, 20, 0.12);
+  color: var(--loss);
+}
+
+/* --- avatar --- */
+.hp-row-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(22, 48, 79, 0.18);
+  background: var(--cream-sink);
+  flex: none;
+}
+
+.hp-row-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* --- name block --- */
+.hp-row-main { min-width: 0; }
+
+.hp-row-name {
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: var(--fs-lg);
+  line-height: 1.2;
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hp-row-note {
+  margin-top: 0.15rem;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--ink-faint);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* --- stat cluster on the right --- */
+.hp-row-stats {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 2vw, 1.75rem);
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.hp-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.1;
+  min-width: 0;
+}
+
+.hp-stat-value {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.45rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.hp-stat-label {
+  margin-top: 0.2rem;
+  font-family: var(--body);
+  font-weight: 500;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+
+.hp-stat.is-muted .hp-stat-value { color: var(--ink-faint); }
+.hp-stat.is-win   .hp-stat-value { color: var(--win); }
+.hp-stat.is-loss  .hp-stat-value { color: var(--loss); }
+.hp-stat.is-lead  .hp-stat-value { color: var(--amber-deep); }
+
+/* Wide stat used for free text (vote lists) */
+.hp-stat.is-text {
+  align-items: flex-end;
+  max-width: 60%;
+}
+
+.hp-stat.is-text .hp-stat-value {
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: var(--fs-md);
+  white-space: normal;
+  text-align: right;
+  line-height: 1.35;
+}
+
+/* --- generic card (kept for forms, callouts, vote summary) --- */
+.user-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap-3);
+  width: 100%;
+  padding: var(--gap-6) var(--gap-5);
+  background-color: var(--card);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+  backdrop-filter: blur(14px) saturate(1.15);
+  border: 1px solid var(--card-edge);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.user-text {
+  font-family: var(--body);
+  text-align: center;
+  line-height: 1.35;
+}
+
+/* --- dropdown (year / week pickers) --- */
+.drop-down {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-4);
+  width: 100%;
+  padding: 0.85rem 2.5rem 0.85rem 1.25rem;
+  background-color: var(--card);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+  backdrop-filter: blur(14px) saturate(1.15);
+  border: 1px solid var(--card-edge);
+  border-radius: var(--r-pill);
+  box-shadow: var(--shadow-card);
+}
+
+.drop-down-title {
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  padding-left: var(--gap-2);
+}
+
+/* What you see: the value sits where it always has, and being in flow it is
+   still what gives the pill its height. */
+.drop-down-value {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 1.4rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  border-radius: var(--r-pill);
+  padding: 0.25rem 0.75rem;
+  transition: background-color 0.16s var(--ease);
+}
+
+/* What you click: an invisible select stretched over the whole pill, so the
+   label and the empty space open the list too. */
+.drop-down-select {
+  appearance: none;
+  -webkit-appearance: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border: 0;
+  border-radius: var(--r-pill);
+  background: transparent;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* hovering anywhere on the pill lights up the value, as clicking anywhere
+   on it now opens the list */
+.drop-down:hover .drop-down-value { background-color: var(--amber-wash); }
+
+/* the select itself is invisible, so its focus ring has to be drawn on the
+   pill or keyboard users lose it */
+.drop-down:has(.drop-down-select:focus-visible) {
+  outline: 3px solid var(--amber);
+  outline-offset: 3px;
+}
+
+.drop-down-select:focus-visible { outline: none; }
+
+/* amber chevron, drawn with borders so no asset is needed */
+.drop-down::after {
+  content: "";
+  position: absolute;
+  right: 1.25rem;
+  top: 50%;
+  margin-top: -2px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid var(--amber);
+  pointer-events: none;
+}
+
+/* --- responsive --- */
+@media only screen and (max-width: 720px) {
+  .hp-row {
+    grid-template-columns: 2.75rem 46px minmax(0, 1fr);
+    grid-template-areas:
+      "rank avatar main"
+      "stats stats stats";
+    gap: var(--gap-3);
+    padding: 0.8rem 0.9rem;
+    row-gap: var(--gap-2);
+  }
+
+  .hp-row.is-norank {
+    grid-template-columns: 46px minmax(0, 1fr);
+    grid-template-areas:
+      "avatar main"
+      "stats stats";
+  }
+
+  .hp-row-rank   { grid-area: rank; height: 2rem; min-width: 2rem; font-size: 1rem; }
+  .hp-row-avatar { grid-area: avatar; width: 46px; height: 46px; }
+  .hp-row-main   { grid-area: main; }
+
+  /* Stats get their own line, split into equal columns so the labels
+     line up down the list instead of jittering row to row. */
+  .hp-row-stats {
+    grid-area: stats;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    gap: var(--gap-2);
+    padding-top: var(--gap-2);
+    border-top: 1px solid var(--card-line);
+  }
+
+  .hp-row-name { font-size: var(--fs-md); }
+  .hp-row-note { font-size: var(--fs-xs); }
+
+  .hp-stat { align-items: flex-start; }
+
+  .hp-stat-value {
+    font-size: 1.15rem;
+    /* long values (team score lines) shrink rather than overflow */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+
+  .hp-stat-label { font-size: 0.58rem; letter-spacing: 0.1em; }
+
+  /* free-text stats (vote ballots) take the whole line */
+  .hp-stat.is-text { max-width: 100%; }
+  .hp-stat.is-text .hp-stat-value {
+    text-align: left;
+    white-space: normal;
+    overflow: visible;
+  }
+
+  .hp-list-head { padding: 0.75rem 0.9rem; font-size: 0.6rem; }
+
+  .drop-down {
+    border-radius: var(--r-lg);
+    padding: 0.7rem 2.25rem 0.7rem 1rem;
+    min-height: 52px;
+  }
+
+  .drop-down-select { font-size: 1.15rem; }
+  .drop-down::after { right: 1rem; }
+}
+
+/* very small phones */
+@media only screen and (max-width: 380px) {
+  .hp-row {
+    grid-template-columns: 2.25rem 40px minmax(0, 1fr);
+    gap: var(--gap-2);
+    padding: 0.75rem;
+  }
+
+  .hp-row.is-norank { grid-template-columns: 40px minmax(0, 1fr); }
+  .hp-row-avatar { width: 40px; height: 40px; }
+  .hp-row-rank { height: 1.75rem; min-width: 1.75rem; font-size: 0.9rem; }
+  .hp-stat-value { font-size: 1rem; }
+}

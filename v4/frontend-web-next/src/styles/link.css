@@ -1,0 +1,42 @@
+/* ==========================================================================
+   Inline links + the loading spinner
+   ========================================================================== */
+
+.link {
+  display: inline-block;
+  margin-top: var(--gap-3);
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  letter-spacing: 0.02em;
+  color: var(--amber-deep);
+  text-decoration: none;
+  border-bottom: 1.5px solid transparent;
+  transition: border-color 0.16s var(--ease), color 0.16s var(--ease);
+}
+
+.link:hover {
+  color: var(--field);
+  border-bottom-color: var(--amber);
+}
+
+.loading {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 50vh;
+  padding: var(--gap-6) 0;
+}
+
+.loading-img {
+  height: 7rem;
+  width: 7rem;
+  filter: drop-shadow(0 6px 18px rgba(6, 16, 30, 0.45));
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
