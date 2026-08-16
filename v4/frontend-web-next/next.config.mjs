@@ -23,6 +23,11 @@ const nextConfig = {
         protocol: "https",
         hostname: "powless.heise.ai",
       },
+      //local django, for development only. next/image refuses any host that
+      //is not listed here, so without this every avatar and logo 400s when
+      //NEXT_PUBLIC_API_URL points at localhost.
+      { protocol: "http", hostname: "127.0.0.1", port: "8000" },
+      { protocol: "http", hostname: "localhost", port: "8000" },
     ],
   },
 };
